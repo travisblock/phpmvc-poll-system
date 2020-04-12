@@ -1,0 +1,199 @@
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
+
+/* *{
+  border: 1px solid red;
+} */
+
+html, body{
+  margin: 0px;
+  padding: 0;
+  width: 100%;
+  scroll-behavior: smooth;
+  background-color: #26303c;
+}
+
+body {
+  font-family: 'Comic Neue', cursive;
+}
+
+header{
+  width: 100%;
+  height: 10vh;
+}
+
+.content{
+  height: 80vh;
+  color:#fff;
+  width: 100%;
+  font-size: 16px;
+  text-align: justify;
+  margin: 0 0 2rem 0;
+}
+
+.container{
+  margin: 0px 30px 0px;
+}
+
+.row-center{
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.row-box{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 45px;
+}
+
+.pool-card{
+  background: #1d242d;
+  width: 390px;
+  height: 130px;
+  margin: 10px 10px;
+  padding: 5px 15px 5px 15px;
+  box-sizing: border-box;
+}
+
+.pool-bar{
+  margin-top: 10px;
+}
+
+.pool-bar .span1{
+  background: #dadada;
+  width: 100%;
+  display: flex;
+  color:#dadada;
+  border-radius: 5px;
+}
+
+.pool-bar .span2{
+  background: #00adfe;
+  display: block;
+  box-sizing: border-box;
+  color:#00adfe;
+  border-radius: 5px;
+}
+
+.pool-bar .span3{
+  box-sizing: border-box;
+  color: #dadada;
+  margin-left: 10px;
+  font-size: 15px;
+}
+
+.text-suara{
+  margin-bottom: 10px;
+}
+
+.border-bottom{
+  border-bottom: 3px solid #2a75ce;
+}
+
+.logo{
+  position: fixed;
+  float: left;
+  margin: 15px 36px;
+  color:#fff;
+  font-weight: bold;
+  font-size: 32px;
+
+}
+
+.svg-icon{
+  width: 30px;
+  float: right;
+
+}
+
+svg{
+  fill:white
+}
+
+nav{
+  position: fixed;
+  width: 100%;
+
+}
+
+nav ul{
+  list-style: none;
+  background: rgba(0,0,0,0);
+  overflow: hidden;
+  color: #fff;
+  padding: 0;
+  text-align: right;
+  margin: 9px 36px;
+  transition: all 0.8s ease;
+
+}
+
+nav ul li{
+  display: inline-block;
+  padding: 10px;
+}
+
+nav ul li a{
+  text-decoration: none;
+  color: #fff;
+  font-size: 20px;
+  transition: all 0.3s ease-in-out;
+}
+
+nav ul li a:hover{
+  color:#00adfe
+}
+
+nav{
+  transition: all 1s ease-in-out;
+}
+
+nav.black{
+  background: #1d242d;
+  transition: all 1s ease-in-out;
+}
+
+.menu-icon{
+  width: 100%;
+  background: #1d242d;
+  text-align: right;
+  box-sizing: border-box;
+  padding: 21px 36px;
+  color:#fff;
+  display: none;
+}
+
+@media (max-width: 780px) {
+  .logo{
+    position: fixed;
+    top:0;
+    margin-top: 12px;
+  }
+
+  nav ul{
+    max-height: 0px;
+    background: #1d242d;
+    margin: 0px;
+  }
+
+  nav.black ul{
+    background: #1d242d;
+  }
+
+  .showing{
+    max-height: 20em;
+  }
+
+  nav ul li{
+    box-sizing: border-box;
+    width: 100%;
+    padding: 15px 0;
+    text-align: center;
+  }
+
+  .menu-icon{
+    display: block;
+  }
+}
