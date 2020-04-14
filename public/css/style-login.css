@@ -1,0 +1,126 @@
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
+
+*{
+  margin: 0px;
+  padding: 0px;
+}
+
+html, body{
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Comic Neue', cursive;
+  background-color: #26303c;
+}
+
+header{
+}
+
+.content{
+
+  background-color: #202933;
+  height: 500px;
+  width: 450px;
+  margin: 80px auto;
+  color:#fff;
+  box-sizing: border-box;
+  padding-top:90px
+}
+
+.heading{
+  display: flex;
+  justify-content: center;
+  margin-top: -40px;
+}
+
+.login, .signin{
+  background: #1d242d;
+  height: 50px;
+  width: 180px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.login{
+  border-left: 1px solid #00adfe;
+}
+
+.signin{
+  border-right: 1px solid #00adfe;
+}
+
+.signinform{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.signinform form, .loginform form{
+  margin-top: 25px;
+  width: 360px;
+}
+.signinform form input, .loginform form input{
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  margin: 15px auto;
+  width: 85%;
+  box-sizing: border-box;
+  background: #26303c;
+  color: #fff;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0px 1px 0px 0px #00adfe69;
+}
+
+.hide{
+  display: none !important;
+}
+
+.loginform{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loginform form input[type='submit']{
+  margin:120px auto 0px auto;
+}
+
+.signinform form input.submit{
+  box-shadow: none;
+  width: 50%;
+  text-align: center;
+  margin-top: 30px;
+}
+
+.loginform form input.submit{
+  box-shadow: none;
+  width: 50%;
+}
+
+.loginform span.lupa{
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.border{
+  color: #00adfe;
+}
+
+@media (max-width: 500px) {
+
+  .content{
+    width: 90%;
+  }
+  .login, .signin{
+    width: 45%;
+    box-sizing: border-box;
+  }
+}
