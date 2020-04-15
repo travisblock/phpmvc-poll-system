@@ -55,4 +55,12 @@ class User extends Controller{
     Session_destroy();
     header('Location:'. BASEURL);
   }
+
+  public function daftar(){
+    $email = Input::get('email');
+    $user  = Input::get('user');
+    $pass  = Input::get('pass');
+
+    $this->model('registerUser')->regist($email,$user,$pass);
+  }
 }
