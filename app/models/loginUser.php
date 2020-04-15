@@ -14,10 +14,12 @@ class loginUser{
       $this->db->query($query);
       $this->db->bind('usr', $user);
       $this->db->execute();
-      if($this->db->rowCount() > 0){
-        return $this->db->result();
-      }
-      return false;
+      return ($this->db->rowCount() > 0) ? $this->db->result() : false;
+
+      // if($this->db->rowCount() > 0){
+      //   return $this->db->result();
+      // }
+      // return false;
     }
     return false;
   }
