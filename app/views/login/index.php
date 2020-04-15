@@ -23,7 +23,7 @@
         </div>
 
         <div class="loginform hide" id="loginform" >
-          <form method="post" action="<?= BASEURL;?>/login/masuk">
+          <form method="post" action="<?= BASEURL;?>/user/masuk">
             <input type="text" name='user' class="input" placeholder="username">
             <input type="password" name='pass' class="input" placeholder="password">
             <span class="lupa"><a href="#">Forgot Password</a></span>
