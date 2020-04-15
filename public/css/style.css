@@ -51,7 +51,7 @@ header{
 .pool-card{
   background: #1d242d;
   width: 390px;
-  height: 130px;
+  height: 170px;
   margin: 10px 10px;
   padding: 5px 15px 5px 15px;
   box-sizing: border-box;
@@ -163,6 +163,36 @@ nav.black{
   padding: 21px 36px;
   color:#fff;
   display: none;
+}
+
+.heading-2{
+  display: flex;
+  justify-content: center;
+  margin-top: -35px;
+  text-align: center;
+}
+
+.tombol{
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+button{
+  color:#fff;
+  background:#26303c;
+  border: none;
+  box-sizing: border-box;
+  padding: 6px 23px;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: all ease-in-out .7s;
+}
+
+button:hover{
+  border: 1px solid #00adfe;
+  padding-top: -1px;
+  color:#00adfe;
 }
 
 @media (max-width: 780px) {
