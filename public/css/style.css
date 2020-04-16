@@ -178,7 +178,7 @@ nav.black{
   margin-top: 20px;
 }
 
-button{
+label.button {
   color:#fff;
   background:#26303c;
   border: none;
@@ -189,7 +189,7 @@ button{
   transition: all ease-in-out .7s;
 }
 
-button:hover{
+label.button:hover{
   border: 1px solid #00adfe;
   padding-top: -1px;
   color:#00adfe;
@@ -226,4 +226,78 @@ button:hover{
   .menu-icon{
     display: block;
   }
+}
+
+
+label.close svg{
+  fill:#171e26;
+  right: 20px;
+  position: absolute;
+  top: 25px;
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+}
+.modal-content{
+  position: absolute;
+  top: 50%;
+  left:50%;
+  transform: translate(-50%, -50%);
+}
+
+.click-me{
+  display: block;
+  width: 150px;
+  height: 50px;
+  background: #171e26;
+  border-radius: 5px;
+  line-height: 50px;
+  text-align: center;
+}
+#click{
+  display: none;
+}
+.modal-content{
+  opacity: 0;
+  visibility: hidden;
+  width: 400px;
+  height: 350px;
+  background: #171e26;
+  border-radius: 3px;
+  transition: 0.5s ease-in-out
+}
+.modal-content .header{
+  height: 60px;
+  background: #fff;
+  overflow: hidden;
+  border-radius: 3px;
+  color:#171e26;
+}
+.modal-content .header h2{
+  text-align: center;
+  font-weight: bold;
+}
+.modal-content .isi p{
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.modal-content .close-btn{
+  position: absolute;
+  bottom: 12px;
+  right: 25px;
+  border: 2px solid #4a535e;
+  padding: 8px 15px;
+  cursor: pointer;
+}
+#click:checked ~ .modal-content{
+  opacity: 1;
+  visibility: visible;
+}
+
+@media (max-width: 415px) {
+  .modal-content{
+    width: 95%;
+  }
+
 }
