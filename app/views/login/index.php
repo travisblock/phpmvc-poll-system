@@ -13,17 +13,17 @@
         <div class="login" id="login">Login</div>
       </div>
         <div class="signinform" id="signinform">
-          <form method="post" >
-            <input type="text" class="input" placeholder="Username">
-            <input type="email" class="input" placeholder="email">
-            <input type="password" class="input" placeholder="password">
-            <input type="password" class="input" placeholder="confirm password">
+          <form method="post" action="<?= BASEURL; ?>/user/register">
+            <input type="text" class="input" placeholder="Username" name="user">
+            <input type="email" class="input" placeholder="email" name="email">
+            <input type="password" class="input" placeholder="password" name="pass">
+            <input type="password" class="input" placeholder="confirm password" name="pass2">
             <input type="submit" class="submit" value="SignIn">
           </form>
         </div>
 
         <div class="loginform hide" id="loginform" >
-          <form method="post" action="<?= BASEURL;?>/user/masuk">
+          <form method="post" action="<?= BASEURL;?>/user/login">
             <input type="text" name='user' class="input" placeholder="username">
             <input type="password" name='pass' class="input" placeholder="password">
             <span class="lupa"><a href="#">Forgot Password</a></span>
