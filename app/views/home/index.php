@@ -7,30 +7,30 @@
     <span class="text-suara">50 suara</span>
     <div class="pool-bar">
       <span class="span1">
-        <span class="span2" style="width:70%">
-          <span class="span3">1%</span>
+        <span class="span2" style="width:50%">
+          <span class="span3">50%</span>
         </span>
       </span>
     </div>
   </div>
   <div class="pool-card">
     <h3>CodeIgniter</h3>
-    <span class="text-suara">70 suara</span>
+    <span class="text-suara">30 suara</span>
     <div class="pool-bar">
       <span class="span1">
-        <span class="span2" style="width:70%">
-          <span class="span3">70% Orang memilih CodeIgniter</span>
+        <span class="span2" style="width:30%">
+          <span class="span3">30%</span>
         </span>
       </span>
     </div>
   </div>
   <div class="pool-card">
     <h3>Symfony</h3>
-    <span class="text-suara">10 suara</span>
+    <span class="text-suara">20 suara</span>
     <div class="pool-bar">
       <span class="span1">
-        <span class="span2" style="width:70%">
-          <span class="span3">0% Orang memilih Symfony</span>
+        <span class="span2" style="width:20%">
+          <span class="span3">20%</span>
         </span>
       </span>
     </div>
