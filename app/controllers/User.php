@@ -17,7 +17,7 @@ class User extends Controller{
   //   var_dump($this->db->rowCount());
   // }
 
-  public function masuk(){
+  public function login(){
     $user = Input::get('user');
     $pass = Input::get('pass');
     if(!empty($user) && !empty($pass)){
@@ -26,8 +26,10 @@ class User extends Controller{
         Session::set('username', $user);
         Session::set('wo', 'q');
         header('Location:'. BASEURL .'/user/home');
+        exit();
       }else{
         header('Location:'. BASEURL .'/user');
+        exit();
       }
     }else{
       header('Location:'. BASEURL . '/user');
@@ -54,13 +56,15 @@ class User extends Controller{
     session_start();
     Session_destroy();
     header('Location:'. BASEURL);
+    exit();
   }
 
-  public function daftar(){
-    $email = Input::get('email');
-    $user  = Input::get('user');
-    $pass  = Input::get('pass');
+  public function register(){
+    $data['email'] = Input::get('email');
+    $data['user']  = Input::get('user');
+    $data['pass']  = Input::get('pass');
+    $data['pass2'] = Input::get('pass2');
 
-    $this->model('registerUser')->regist($email,$user,$pass);
+    var_dump($this->model('registerUser')->register($data));
   }
 }
