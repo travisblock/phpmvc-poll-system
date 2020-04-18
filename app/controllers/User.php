@@ -24,7 +24,6 @@ class User extends Controller{
       if($this->model('loginUser')->login($user, $pass)){
         session_start();
         Session::set('username', $user);
-        Session::set('wo', 'q');
         header('Location:'. BASEURL .'/user/home');
         exit();
       }else{
@@ -60,11 +59,23 @@ class User extends Controller{
   }
 
   public function register(){
-    $data['email'] = Input::get('email');
-    $data['user']  = Input::get('user');
-    $data['pass']  = Input::get('pass');
-    $data['pass2'] = Input::get('pass2');
+    $data['email'] = htmlentities(Input::get('email'));
+    $data['user']  = htmlentities(Input::get('user'));
+    $data['pass']  = password_hash(Input::get('pass'), PASSWORD_DEFAULT);
 
-    var_dump($this->model('registerUser')->register($data));
+    if($this->model('registerUser')->cekRegister($data)){
+      if($this->model('registerUser')->register($data)){
+        session_start();
+        Session::set('username', $data['user']);
+        header('Location:'. BASEURL .'/user/home');
+        exit();
+      }else{
+        echo "<script>alert('Ada kesalahan saat input data'); window.location.href='".BASEURL."/user'</script>";
+      }
+    }else{
+      echo "<script>alert('Username / email sudah digunakan'); window.location.href='".BASEURL."/user'</script>";
+    }
+    // var_dump($this->model('registerUser')->register($data));
   }
+
 }
