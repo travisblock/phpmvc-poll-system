@@ -17,7 +17,6 @@
             <input type="text" class="input" placeholder="Username" name="user">
             <input type="email" class="input" placeholder="email" name="email">
             <input type="password" class="input" placeholder="password" name="pass">
-            <input type="password" class="input" placeholder="confirm password" name="pass2">
             <input type="submit" class="submit" value="SignIn">
           </form>
         </div>
