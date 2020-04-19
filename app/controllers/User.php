@@ -46,7 +46,7 @@ class User extends Controller{
       $this->view('user/index');
       $this->view('templates/footer');
     }else{
-      header('Location:'. BASEURL . '/login');
+      header('Location:'. BASEURL . '/user');
       exit();
     }
   }
