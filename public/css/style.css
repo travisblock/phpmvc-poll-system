@@ -295,6 +295,11 @@ label.close svg{
   visibility: visible;
 }
 
+.userLogin{
+  font-size: 21px;
+  border-bottom: 1px solid #00adfe;
+}
+
 @media (max-width: 415px) {
   .modal-content{
     width: 95%;
