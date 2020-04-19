@@ -19,11 +19,22 @@
         </div>
         <div class="menu">
           <ul>
+            <?php
+            if (Session::exists('username')){
+              ?>
+                <li class="userLogin"><?= Session::get('username'); ?></li>
+                <li><a href="<?= BASEURL; ?>/user/logout">Logout</a></li>
+              <?php
+            }else{
+            ?>
             <li><a href="/">Home</a></li>
             <li><a href="<?= BASEURL; ?>/user">Login</a></li>
             <li><a href="#">Product</a></li>
             <li><a href="#">Blog</a></li>
             <li><a href="#">Contact</a></li>
+            <?php
+            }
+            ?>
           </ul>
         </div>
       </nav>
