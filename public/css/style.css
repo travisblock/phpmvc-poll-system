@@ -105,6 +105,7 @@ header{
 .svg-icon{
   width: 30px;
   float: right;
+  cursor: pointer;
 
 }
 
@@ -196,6 +197,10 @@ label.button:hover{
 }
 
 @media (max-width: 780px) {
+  .userLogin{
+    border-bottom: none!important;
+  }
+
   .logo{
     position: fixed;
     top:0;
