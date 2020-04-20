@@ -8,15 +8,6 @@ class User extends Controller{
 
   }
 
-  // public function cekUser($user){
-  //   $query = "SELECT * FROM login WHERE user=:user";
-  //   $this->db->query($query);
-  //   $this->db->bind('user', $user);
-  //   $this->db->execute();
-  //   var_dump($this->db);
-  //   var_dump($this->db->rowCount());
-  // }
-
   public function login(){
     $user = Input::get('user');
     $pass = Input::get('pass');
@@ -34,7 +25,6 @@ class User extends Controller{
       header('Location:'. BASEURL . '/user');
       exit();
     }
-    // var_dump($this->model('loginUser')->login($user, $pass));
 
   }
 
@@ -42,8 +32,9 @@ class User extends Controller{
     session_start();
     if(Session::exists('username')){
       $data['judul'] = 'Polling';
+      $data['poll'] = $this->model('PollingUser')->getPolling();
       $this->view('templates/header', $data);
-      $this->view('user/index');
+      $this->view('user/index', $data);
       $this->view('templates/footer');
     }else{
       header('Location:'. BASEURL . '/user');
@@ -75,7 +66,6 @@ class User extends Controller{
     }else{
       echo "<script>alert('Username / email sudah digunakan'); window.location.href='".BASEURL."/user'</script>";
     }
-    // var_dump($this->model('registerUser')->register($data));
   }
 
 }
