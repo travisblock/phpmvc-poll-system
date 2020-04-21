@@ -29,7 +29,6 @@
 
 
 <input type="checkbox" id="click">
-<!-- <label for="click" class="click-me">Click Me</label> -->
 <div class="modal-content" id="pollDetail">
 
 </div>
