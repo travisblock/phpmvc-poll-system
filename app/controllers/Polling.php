@@ -17,12 +17,15 @@ class Polling extends Controller{
   }
 
   public function pilih(){
+    session_start();
     $id = Input::get('idPool');
-    if($this->model('PollingUser')->pollInput($id) > 0){
+    $user = Session::get('username');
+    if($this->model('PollingUser')->pollInput($id, $user) > 0){
+      Session_destroy();
       header('Location:'. BASEURL);
     }else{
       header('Location:'. BASEURL . '/user/home');
     }
   }
-  
+
 }
