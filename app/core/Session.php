@@ -7,8 +7,12 @@ class Session{
     return $_SESSION[$nama] = $isi;
   }
 
-  public static function get($nama){
-    return $_SESSION[$nama];
+  public static function get($nama=null){
+    if(!empty($_SESSION)){
+      return $_SESSION[$nama];
+    }else{
+      return false;
+    }
   }
 
   public static function exists($nama){
