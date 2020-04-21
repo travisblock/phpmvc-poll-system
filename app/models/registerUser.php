@@ -10,7 +10,7 @@ class registerUser{
 
   public function register($data = array()){
     if($data){
-      $query = "INSERT INTO user(username,email,pass) VALUES(:username, :email, :pass)";
+      $query = "INSERT INTO user(username,email,pass,sudah) VALUES(:username, :email, :pass, 0)";
       $this->db->query($query);
       $this->db->bind('username', $data['user']);
       $this->db->bind('email', $data['email']);
