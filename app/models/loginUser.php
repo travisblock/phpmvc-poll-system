@@ -10,30 +10,32 @@ class loginUser{
 
   public function cekUser($user){
     if(!empty($user)){
-      $query = "SELECT * FROM login where user=:usr";
+      $query = "SELECT * FROM user where username=:usr";
       $this->db->query($query);
       $this->db->bind('usr', $user);
       $this->db->execute();
       return ($this->db->rowCount() > 0) ? $this->db->result() : false;
-
-      // if($this->db->rowCount() > 0){
-      //   return $this->db->result();
-      // }
-      // return false;
     }
     return false;
   }
 
-  public function login($user, $pass){
-    $password = $this->cekUser($user);
-    if(!empty($password)){
-      if(password_verify($pass, $password['pass'])){
-        return true;
-      }else{
-        return false;
+  public function login($user=null, $pass=null){
+    if(!is_null($user) && !is_null($pass)){
+      $data = $this->cekUser($user);
+      if(!empty($data)){
+        if(password_verify($pass, $data['pass'])){
+          if($data['sudah'] < 1){
+            return true;
+          }else{
+            return false;
+          }
+        }else{
+          return false;
+        }
       }
     }
-    return false;
   }
+
+
 
 }
