@@ -28,4 +28,17 @@ class Polling extends Controller{
     }
   }
 
+  public function getPollingData(){
+    // sampe sini
+
+    $data['judul'] = 'OK';
+    $this->view('templates/header', $data);
+    $id = json_decode(file_get_contents('php://input'), true);
+    $time = isset($id) ? (int)$id : null;
+    var_dump($id);
+    set_time_limit(0);
+    $this->model('PollingUser')->getPollRealtime($time);
+    $this->view('templates/footer');
+  }
+
 }
