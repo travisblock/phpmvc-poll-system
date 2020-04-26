@@ -167,3 +167,68 @@ svg{
 
 
 /* Ini untuk tabel */
+
+/* responsive breakpoint tabel*/
+
+@media screen and (max-width: 780px) {
+  .tabel-responsive{
+    display: block !important;
+    overflow: scroll;
+  }
+}
+
+/* end breakpoint tabel*/
+
+.tabel{
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 0;
+  border: 2px solid #ebebeb;
+}
+
+.tabel thead tr{
+  background-color: #4360b5;
+  color:#fff;
+  text-align: left;
+  font-weight: bold;
+}
+
+.tabel th,
+.tabel td{
+  padding: 10px 15px
+}
+
+.tabel tbody tr{
+  border-bottom: 2px solid #ebebeb
+}
+
+.tabel tbody tr:nth-of-type(even){
+  background-color: #ebebeb;
+}
+
+.tabel-responsive{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tbl-aksi{
+  padding: 4px 8px;
+  font-size: 0.8em;
+  border-radius: 5px;
+}
+
+.tbl-edit{
+  background-color: #00adfe;
+  color:#fff
+}
+
+.tbl-hapus{
+  background-color: #fb4040;
+  color:#fff
+}
+
+.tbl-add{
+  background-color: #4360b5;
+  color: #fff;
+}
