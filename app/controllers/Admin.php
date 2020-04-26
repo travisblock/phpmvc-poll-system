@@ -42,20 +42,61 @@ class Admin extends Controller{
 
   public function dashboard(){
       session_start();
-      $data['judul'] = 'Dashboard';
-      $data['email'] = Session::get('email');
-      $this->view('admin/header', $data);
-      $this->view('admin/dashboard', $data);
-      $this->view('admin/footer');
+      if(Session::exists('username')){
+        $data['judul'] = 'Dashboard';
+        $data['email'] = Session::get('email');
+        $this->view('admin/header', $data);
+        $this->view('admin/dashboard', $data);
+        $this->view('admin/footer');
+      }else{
+        header('Location:'. BASEURL . '/admin');
+        exit();
+      }
   }
 
   public function polling(){
-      $data['judul'] = 'Polling';
-      $data['email'] = 'pollinggann';
-      $this->view('admin/header', $data);
-      $this->view('admin/dashboard', $data);
-      $this->view('admin/footer');
+      session_start();
+      if(Session::exists('username')){
+        $data['judul'] = 'Polling';
+        $data['email'] = 'pollinggann';
+        $this->view('admin/header', $data);
+        $this->view('admin/polling', $data);
+        $this->view('admin/footer');
+      }else{
+        header('Location:'. BASEURL . '/admin');
+        exit();
+      }
   }
+
+  public function userman(){
+      session_start();
+      if(Session::exists('username')){
+        $data['judul'] = 'User Manager';
+        $data['email'] = Session::get('username');
+        $this->view('admin/header', $data);
+        $this->view('admin/dashboard', $data);
+        $this->view('admin/footer');
+      }else{
+        header('Location:'. BASEURL . '/admin');
+        exit();
+      }
+  }
+
+  public function setting(){
+      session_start();
+      if(Session::exists('username')){
+        $data['judul'] = 'Setting Manager';
+        $data['email'] = Session::get('username');
+        $this->view('admin/header', $data);
+        $this->view('admin/dashboard', $data);
+        $this->view('admin/footer');
+      }else{
+        header('Location:'. BASEURL . '/admin');
+        exit();
+      }
+  }
+
+
 
   public function logout(){
     session_start();
