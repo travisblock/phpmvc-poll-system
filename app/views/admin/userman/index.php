@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="content" style="padding:20px;text-align:center">
+  <div class="content content-title">
     <h2>User Manager</h2>
   </div>
   <div class="content">
@@ -26,7 +26,7 @@
             <td width="10%"><?= $no; ?></td>
             <td width="50%"><?= $user['username']; ?></td>
             <td width="20%"><?php echo ($user['sudah'] > 0) ? 'Sudah' : "Belum" ?></td>
-            <td width="20%"><a class="tbl-aksi tbl-hapus" href="<?= BASEURL . '/admin/userman/hapus/' . $user['id']; ?>">Hapus</a>&nbsp;
+            <td width="20%"><a class="tbl-aksi tbl-hapus" href="<?= BASEURL . '/admin/userman/hapus/' . $user['id']; ?>" onclick="return confirm('Yakin akan menghapus user ?')">Hapus</a>&nbsp;
                 <a class="tbl-aksi tbl-edit" href="<?= BASEURL . '/admin/userman/edit/' . $user['id']; ?>">Edit</a>
             </td>
           </tr>
