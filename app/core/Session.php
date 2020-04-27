@@ -9,7 +9,9 @@ class Session{
 
   public static function get($nama=null){
     if(!empty($_SESSION)){
-      return $_SESSION[$nama];
+      if(isset($_SESSION[$nama])){
+        return $_SESSION[$nama];
+      }
     }else{
       return false;
     }
