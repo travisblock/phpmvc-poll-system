@@ -35,4 +35,37 @@ class UserMan{
     }
   }
 
+  public function getUserById($id = null){
+    if(!empty($id)){
+
+      $query = "SELECT * FROM user WHERE id=:id";
+      $this->db->query($query);
+      $this->db->bind('id', $id);
+      $this->db->execute();
+
+      return ($this->db->rowCount() > 0) ? $this->db->result() : false;
+
+    }
+  }
+
+  public function edit($data, $id){
+
+    $pass = password_hash($data['pass'], PASSWORD_DEFAULT);
+
+    if(!empty($data['username']) && !empty($data['pass'])){
+      $query = "UPDATE user SET username=:username, pass='$pass' WHERE id=:id";
+    }elseif(!empty($data['username']) && empty($data['pass'])){
+      $query = "UPDATE user SET username=:username WHERE id=:id";
+    }else{
+      $query = null;
+    }
+
+    $this->db->query($query);
+    $this->db->bind('id', $id);
+    $this->db->bind('username', $data['username']);
+    $this->db->execute();
+
+    return $this->db->rowCount();
+  }
+
 }
