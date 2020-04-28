@@ -80,3 +80,11 @@
           </a></li>
         </ul>
       </div>
+
+      <?= Msg::show(); ?>
+
+      <!-- <div id="msg" class="msg">
+              <div class="success">
+                User sukses dihapus
+              </div>
+            </div> -->
