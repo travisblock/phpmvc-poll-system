@@ -102,10 +102,13 @@ class Admin extends Controller{
             if(empty($data['img_name'])){
 
               if($this->model('PollingControl')->tambah($data) > 0){
+                Msg::setMSG('Berhasil tambah kandidat', 'success');
                 header('Location:'. BASEURL . '/admin/polling');
                 exit();
               }else{
-                echo "<script>alert('GAGAL Tambah Kandidat'); window.location.href='".BASEURL."/admin/polling'</script>";
+                Msg::setMSG('Gagal tambah kandidat', 'error');
+                header('Location:'. BASEURL . '/admin/polling/tambah');
+                exit();
               }
 
             }else{
@@ -114,15 +117,21 @@ class Admin extends Controller{
                 if(move_uploaded_file($data['img_tmp'], $data['img_path'] . $data['new_name'])){
 
                   if($this->model('PollingControl')->tambah($data) > 0){
+                    Msg::setMSG('Berhasil tambah kandidat', 'success');
                     header('Location:'. BASEURL . '/admin/polling');
                     exit();
+
                   }else{
-                    echo "<script>alert('GAGAL Tambah Kandidat'); window.location.href='".BASEURL."/admin/polling'</script>";
+                    Msg::setMSG('Gagal tambah kandidat', 'error');
+                    header('Location:'. BASEURL . '/admin/polling/tambah');
+                    exit();
                   }
 
                 }
               }else{
-                echo "<script>alert('Hanya boleh JPG dan PNG'); window.location.href='".BASEURL."/admin/polling/tambah'</script>";
+                Msg::setMSG('Hanya boleh upload jpg, png, jpeg', 'error');
+                header('Location:'. BASEURL . '/admin/polling/tambah');
+                exit();
               }
             }
           }
@@ -145,10 +154,13 @@ class Admin extends Controller{
           }
 
           if($this->model('PollingControl')->hapus($param2) > 0){
+            Msg::setMSG('Berhasil hapus kandidat', 'success');
             header('Location:'. BASEURL . '/admin/polling');
             exit();
           }else{
-            echo "<script>alert('GAGAL Hapus Kandidat'); window.location.href='".BASEURL."/admin/polling'</script>";
+            Msg::setMSG('Gagal hapus kandidat', 'error');
+            header('Location:'. BASEURL . '/admin/polling');
+            exit();
           }
 
           /**
@@ -174,10 +186,13 @@ class Admin extends Controller{
 
             if(empty($data['img_name'])){
               if($this->model('PollingControl')->edit($data, $param2) > 0){
-                header('Location:'. BASEURL . '/admin/polling');
+                Msg::setMSG('Berhasil tambah kandidat', 'success');
+                header("Location:".BASEURL."/admin/polling");
                 exit();
               }else{
-                echo "<script>alert('GAGAL edit Kandidat'); window.location.href='".BASEURL."/admin/polling/edit/". $data['kandidat']['id'] ."'</script>";
+                Msg::setMSG('Gagal edit kandidat', 'error');
+                header("Location:".BASEURL."/admin/polling/edit/". $data['kandidat']['id']);
+                exit();
               }
             }else{
 
@@ -190,15 +205,20 @@ class Admin extends Controller{
                   }
 
                   if($this->model('PollingControl')->edit($data, $param2) > 0){
+                    Msg::setMSG('Berhasil edit kandidat', 'success');
                     header('Location:'. BASEURL . '/admin/polling');
                     exit();
                   }else{
-                    echo "<script>alert('GAGAL edit Kandidat'); window.location.href='".BASEURL."/admin/polling/edit/". $data['kandidat']['id'] ."'</script>";
+                    Msg::setMSG('Gagal edit kandidat', 'error');
+                    header("Location:".BASEURL."/admin/polling/edit/". $data['kandidat']['id']);
+                    exit();
                   }
                 }
 
               }else{
-                echo "<script>alert('Hanya boleh JPG dan PNG'); window.location.href='".BASEURL."/admin/polling/edit/". $data['kandidat']['id'] ."'</script>";
+                Msg::setMSG('Hanya boleh JPG dan PNG', 'error');
+                header("Location:".BASEURL."/admin/polling/edit/". $data['kandidat']['id']);
+                exit();
               }
             }
           }
@@ -264,10 +284,11 @@ class Admin extends Controller{
             $data['pass']     = password_hash(Input::get('pass'), PASSWORD_DEFAULT);
 
             if($this->model('UserMan')->tambah($data) > 0 ){
+              Msg::setMSG('User berhasil ditambahkan', 'success');
               header('Location:'. BASEURL . '/admin/userman');
               exit();
             }else{
-              echo "<script>alert('GAGAL tambah User'); window.location.href='".BASEURL."/admin/userman'</script>";
+              Msg::setMSG('User gagal ditambahkan', 'error');
             }
           }
 
@@ -283,10 +304,13 @@ class Admin extends Controller{
 
         }elseif($param1 == 'hapus' && !is_null($param2)){
           if($this->model('UserMan')->hapus($param2) > 0){
+            Msg::setMSG('User behasil dihapus', 'success');
             header('Location:'. BASEURL . '/admin/userman');
             exit();
           }else{
-            echo "<script>alert('GAGAL Hapus User'); window.location.href='".BASEURL."/admin/userman'</script>";
+            Msg::setMSG('User gagal dihapus', 'error');
+            header('Location:'. BASEURL . '/admin/userman');
+            exit();
           }
 
           /**
@@ -304,10 +328,13 @@ class Admin extends Controller{
             $data['pass']     = $_POST['pass'];
 
             if($this->model('UserMan')->edit($data, $param2) > 0){
+              Msg::setMSG('User berhasil diubah', 'success');
               header('Location:'. BASEURL . '/admin/userman');
               exit();
             }else{
-              echo "<script>alert('GAGAL Edit User'); window.location.href='".BASEURL."/admin/userman'</script>";
+              Msg::setMSG('User gagal diubah', 'error');
+              header('Location:'. BASEURL . '/admin/userman/edit/' . $data['user']['id']);
+              exit();
             }
           }
 
