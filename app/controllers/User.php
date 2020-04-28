@@ -17,9 +17,11 @@ class User extends Controller{
     $user = Input::get('user');
     $pass = Input::get('pass');
     if(!empty($user) && !empty($pass)){
-      if($this->model('loginUser')->login($user, $pass)){
+      $data = $this->model('loginUser')->login($user, $pass);
+      if($data){
         session_start();
-        Session::set('username', $user);
+        Session::set('username', $data['username']);
+        Session::set('id', $data['id']);
         header('Location:'. BASEURL .'/user/home');
         exit();
       }else{
@@ -38,6 +40,7 @@ class User extends Controller{
     if(Session::exists('username')){
       $data['judul'] = 'Polling';
       $data['poll'] = $this->model('PollingUser')->getPolling();
+      $data['username'] = Session::get('username');
       $this->view('templates/header', $data);
       $this->view('user/index', $data);
       $this->view('templates/footer');
@@ -54,33 +57,33 @@ class User extends Controller{
     exit();
   }
 
-  public function register(){
-    session_start();
-    if(empty(Session::get('username'))){
-      $data['email'] = htmlentities(Input::get('email'));
-      $data['user']  = htmlentities(Input::get('user'));
-      $data['pass']  = password_hash(Input::get('pass'), PASSWORD_DEFAULT);
-      if(!empty($data['user']) && !empty($data['email'])){
-        if($this->model('registerUser')->cekRegister($data)){
-          if($this->model('registerUser')->register($data)){
-
-            Session::set('username', $data['user']);
-            header('Location:'. BASEURL .'/user/home');
-            exit();
-          }else{
-            echo "<script>alert('Ada kesalahan saat input data'); window.location.href='".BASEURL."/user'</script>";
-          }
-        }else{
-          echo "<script>alert('Username / email sudah digunakan'); window.location.href='".BASEURL."/user'</script>";
-        }
-      }else{
-        header('Location:'. BASEURL . '/user');
-        exit();
-      }
-    }else{
-      header('Location:'. BASEURL .'/user/home');
-      exit();
-    }
-  }
+  // public function register(){
+  //   session_start();
+  //   if(empty(Session::get('username'))){
+  //     $data['email'] = htmlentities(Input::get('email'));
+  //     $data['user']  = htmlentities(Input::get('user'));
+  //     $data['pass']  = password_hash(Input::get('pass'), PASSWORD_DEFAULT);
+  //     if(!empty($data['user']) && !empty($data['email'])){
+  //       if($this->model('registerUser')->cekRegister($data)){
+  //         if($this->model('registerUser')->register($data)){
+  //
+  //           Session::set('username', $data['user']);
+  //           header('Location:'. BASEURL .'/user/home');
+  //           exit();
+  //         }else{
+  //           echo "<script>alert('Ada kesalahan saat input data'); window.location.href='".BASEURL."/user'</script>";
+  //         }
+  //       }else{
+  //         echo "<script>alert('Username / email sudah digunakan'); window.location.href='".BASEURL."/user'</script>";
+  //       }
+  //     }else{
+  //       header('Location:'. BASEURL . '/user');
+  //       exit();
+  //     }
+  //   }else{
+  //     header('Location:'. BASEURL .'/user/home');
+  //     exit();
+  //   }
+  // }
 
 }
