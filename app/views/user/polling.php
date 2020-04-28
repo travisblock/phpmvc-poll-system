@@ -5,11 +5,14 @@
   </label>
 </div>
 <div class="isi">
+  <img class="foto-kandidat" src="<?= BASEURL . '/public/img/' . $data['img']; ?>" style="max-width:250px">
   <p><?= $data['detail']; ?></p>
   <form method="post" action="<?= BASEURL; ?>/polling/pilih">
     <input type="hidden" name="idPool" value="<?= $data['id']; ?>">
-    <input type="submit" value="pilih">
+    <div class="submit-group">
+      <input type="submit" class="submit-btn" value="pilih">
+      <div class="gap"></div>
+      <label for="click" class="close-btn" >Close</label>
+    </div>
   </form>
 </div>
-<div class="line"></div>
-<label for="click" class="close-btn">Close</label>
