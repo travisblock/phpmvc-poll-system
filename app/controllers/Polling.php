@@ -3,33 +3,50 @@
 class Polling extends Controller{
 
   public function index(){
-
+    header('Location:'. BASEURL);
+    exit();
   }
 
   public function getPollingById(){
       $id = json_decode(file_get_contents('php://input'), true);
-      if(!is_null($id)){
-        foreach($id as $key){
-          $data = $this->model('PollingUser')->getPollById($key);
-          $this->view('user/polling', $data);
+      if(!empty($id)){
+        if(!is_null($id)){
+          foreach($id as $key){
+            $data = $this->model('PollingUser')->getPollById($key);
+            $this->view('user/polling', $data);
+          }
         }
+      }else{
+        header('Location:'. BASEURL);
+        exit();
       }
   }
 
   public function pilih(){
     session_start();
-    $id = Input::get('idPool');
-    $user = Session::get('username');
-    if($this->model('PollingUser')->pollInput($id, $user) > 0){
+    $idpoll = Input::get('idPool');
+    $iduser = Session::get('id');
+    $user   = $this->model('UserMan')->getUserById($iduser);
+
+    if($user['sudah'] < 1){
+      if($this->model('PollingUser')->pollInput($idpoll, $iduser) > 0){
+        Session_destroy();
+        header('Location:'. BASEURL);
+        exit();
+      }else{
+        header('Location:'. BASEURL);
+        exit();
+      }
+    }else{
       Session_destroy();
       header('Location:'. BASEURL);
-    }else{
-      header('Location:'. BASEURL . '/user/home');
+      exit();
     }
   }
 
   public function getPollingData(){
-    // sampe sini
+
+    // stuck di sini
 
     $data['judul'] = 'OK';
     $this->view('templates/header', $data);
