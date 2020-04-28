@@ -24,11 +24,9 @@ class loginUser{
       $data = $this->cekUser($user);
       if(!empty($data)){
         if(password_verify($pass, $data['pass'])){
-          if($data['sudah'] < 1){
-            return true;
-          }else{
-            return false;
-          }
+
+          return ($data['sudah'] < 1) ? $data : false;
+
         }else{
           return false;
         }
