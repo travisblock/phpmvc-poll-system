@@ -22,35 +22,30 @@ class PollingUser{
     return $this->db->result();
   }
 
-  public function pollInput($id = null, $user = null){
-    if(!is_null($id) && !is_null($user)){
+  public function pollInput($idpoll = null, $iduser = null){
+    if(!empty($idpoll) && !empty($iduser)){
       date_default_timezone_set('Asia/Jakarta');
       $date = date("Y-m-d H:i:s");
       $query = "UPDATE polling SET value=value+1 WHERE id=:id";
       $this->db->query($query);
-      $this->db->bind('id', $id);
+      $this->db->bind('id', $idpoll);
       $this->db->execute();
 
       $query_date = "UPDATE polling SET date='$date'";
       $this->db->query($query_date);
       $this->db->execute();
-      $this->catatUser($user);
+      $this->catatUser($iduser);
       return $this->db->rowCount();
     }
   }
 
-  public function catatUser($user){
-    $query_id = "SELECT id FROM user WHERE username=:user";
-    $this->db->query($query_id);
-    $this->db->bind('user', $user);
-    $id = $this->db->result();
-    $id = $this->db->rowCount() > 0 ? $id['id'] : null;
+  public function catatUser($iduser){
 
-    $query_catat = "UPDATE user set sudah=sudah+1 WHERE id=:id";
-    $this->db->query($query_catat);
-    $this->db->bind('id', $id);
+    $query = "UPDATE user set sudah=sudah+1 WHERE id=:iduser";
+    $this->db->query($query);
+    $this->db->bind('iduser', $iduser);
     $this->db->execute();
-    return ($this->db->rowCount() > 0) ? true : null;
+    return ($this->db->rowCount() > 0) ? true : false;
   }
 
   public function getPollRealtime($ajax_call = null){
