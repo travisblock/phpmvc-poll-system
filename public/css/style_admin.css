@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap'); */
 
 *{
   margin: 0;
@@ -6,12 +6,14 @@
   padding: 0;
   text-decoration: none;
   box-sizing: border-box;
-  font-family: 'Comic Neue', cursive;
+  font-family: 'Montserrat', sans-serif;
 
 }
 
 body {
-  background: #eee;
+  background: #edf1f5;
+  color:#516673;
+  font-weight: 300;
 }
 .wrapper{
   margin: 5px;
@@ -21,7 +23,6 @@ svg{
   height: 20px;
   fill: #516673;
 }
-
 
 
 .wrapper .top_navbar{
@@ -93,10 +94,12 @@ svg{
 
 .icon svg{
   fill: #85b4d0;
+  vertical-align: middle;
 }
 
 .active svg{
   fill: #e1f4ff;
+  vertical-align: middle;
 }
 
 .wrapper .sidebar ul li a span.icon{
@@ -106,6 +109,8 @@ svg{
 
 .wrapper .sidebar ul li a span.title{
   display: inline-block;
+  font-size: 0.9em;
+  vertical-align: middle;
 }
 
 .wrapper .sidebar ul li a:hover,
@@ -114,6 +119,11 @@ svg{
   color: #fff;
 }
 
+.content-title{
+  text-align: center;
+  padding:20px !important;
+  color: #516673
+}
 
 .wrapper .container{
   width: calc(100% - 200px);
@@ -121,6 +131,7 @@ svg{
   margin-left: 200px;
   padding: 5px;
   transition: all 0.5s ease;
+  min-height: calc(100vh - 112px);
 }
 
 .wrapper .container .content{
@@ -130,6 +141,7 @@ svg{
   line-height: 22px;
   padding-bottom: 10px;
   margin-bottom: 10px;
+  font-weight: 500;
 
 }
 
@@ -156,6 +168,33 @@ svg{
   }
 }
 
+/* FOOTER */
+.wrapper .container-footer{
+  width: calc(100% - 200px);
+  margin-left: 200px;
+  justify-content: center;
+}
+
+.wrapper.collapse .container-footer{
+  width: calc(100% - 70px);
+  margin-left: 70px;
+}
+
+.wrapper .container-footer .footer-isi{
+  text-align: center;
+  padding: 10px 0px;
+  font-size: 14px;
+  width:100%;
+  font-size: 12px;
+  font-weight: 300
+}
+
+.wrapper .container-footer .footer-isi a{
+  color: #516673;
+  font-weight: bold;
+}
+
+/* END FOOTER */
 
 /* Ini untuk tabel */
 
@@ -181,7 +220,8 @@ svg{
   background-color: #516673;
   color:#fff;
   text-align: left;
-  font-weight: bold;
+  font-weight: 700;
+  border: 2px solid #516673;
 }
 
 .tabel th,
@@ -194,8 +234,12 @@ svg{
   transition: all 0.2s;
 }
 
+.tabel tbody tr:last-child{
+  border-bottom:none;
+  transition: all 0.2s;
+}
+
 .tabel tbody tr.belum{
-  border-bottom: 2px solid #ebebeb;
   transition: all 0.2s;
   color: #4AB19D!important;
 }
@@ -233,4 +277,174 @@ svg{
 .tbl-add{
   background-color: #516673;
   color: #fff;
+}
+
+#error{
+  position:absolute;
+  z-index:1;
+  text-align:
+  center;color:red
+}
+
+.form-bungkus{
+  width: 100%;
+}
+.form-group{
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group{
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 23px;
+}
+
+.input-group span{
+  padding: 0px 0 5px 0;
+  font-size: 1em;
+}
+
+.input-group input[type=text]{
+  border: none;
+  box-sizing: border-box;
+  background-color: #e1e5ea;
+  height: 35px;
+  padding: 7px;
+  border-radius: 3px;
+  color: #516673;
+  font-size: 0.9em;
+}
+
+.input-group input.setengah{
+  width: 50%
+}
+
+.input-group textarea{
+  height: 200px;
+  padding: 17px;
+  font-size: 0.9em;
+  border-radius: 3px;
+  border: 2px solid #e1e5ea;
+}
+
+.input-group-btn{
+  display: inline-block;
+}
+
+.input-group-btn .btn{
+  border: none;
+  padding: 7px 20px;
+  border-radius: 3px;
+  color:#fff;
+  transition: all 0.5s;
+  cursor: pointer;
+}
+
+.input-group-btn .submit{
+  background-color: #4AB19D;
+}
+
+.input-group-btn .submit:hover{
+  background-color: #4ACEB4;
+}
+
+.input-group-btn .close{
+  background-color: #D94447;
+}
+
+.input-group-btn .close:hover{
+  background-color: #DB7577;
+}
+
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.inputfile + label {
+    max-width: 170px;
+    font-size: 1em;
+    font-weight: 500;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
+    padding: 0.525rem 1.25rem;
+    transition: all 0.5s
+}
+
+.inputfile + label svg {
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+    fill: currentColor;
+    margin-top: -0.25em;
+    margin-right: 0.25em
+}
+
+.inputfile + label {
+  color: #516673;
+  border: 2px solid #516673;
+}
+
+.inputfile:focus + label,
+.inputfile.has-focus + label,
+.inputfile + label:hover {
+    border-color: #85b4d0;
+}
+
+.preview{
+  max-width: 300px;
+  margin: 10px 0px 25px 0px;
+}
+
+.wrapper #msg{
+  display: flex;
+  position: fixed;
+  z-index: 1;
+  margin-left: 200px;
+  padding: 5px;
+  margin-top: 8px;
+  transition: all .5s
+
+}
+
+.wrapper #msg .success{
+  background-color: #4cd137;
+  padding: 13px 34px;
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0px 9px 9px 0px rgba(0, 0, 0, 0.29);
+}
+
+.wrapper #msg .error{
+  background-color: #ff4757;
+  padding: 13px 34px;
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0px 9px 9px 0px rgba(0, 0, 0, 0.29);
+}
+
+.wrapper #msg .warning{
+  background-color: #fbc531;
+  padding: 13px 34px;
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0px 9px 9px 0px rgba(0, 0, 0, 0.29);
+}
+
+.wrapper.collapse #msg{
+  margin-left: 70px;
+}
+
+.hide{
+  height: 0px;
+  padding: 0px;
+  opacity: 0
 }
