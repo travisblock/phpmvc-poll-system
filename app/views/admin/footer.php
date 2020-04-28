@@ -1,3 +1,9 @@
+
+  <div class="container-footer">
+    <div class="footer-isi">
+      Made with love by <a href="https://github.com/ajid2/phpmvc-poll-system" target="_blank">Ajid Stark</a>
+    </div>
+  </div>
 </div>
 
 <script type="text/javascript">
@@ -48,6 +54,18 @@ alert('Gambar Harus png , jpg , atau jpeg');
   return false;
   }
 }
+
+
+window.setTimeout(function(){
+  var msg = document.getElementById('msg');
+  msg.classList.toggle('hide');
+}, 3000);
+
+window.setTimeout(function(){
+  var msg = document.getElementById('msg');
+  msg.remove();
+}, 4000);
+
 
 </script>
 </body>
