@@ -279,11 +279,31 @@ svg{
   color: #fff;
 }
 
+.tbl-del{
+  background-color: #d94447;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+/* #massDelete input:checked ~ {
+  display: none;
+} */
+
 #error{
-  position:absolute;
+  position:relative;
   z-index:1;
-  text-align:
-  center;color:red
+  text-align: left;
+  color: red;
+  background: #fff
+}
+
+#adaError {
+	background: #d94447;
+	max-width: 275px;
+	padding: 10px;
+	color: #fff;
+	font-weight: 600;
 }
 
 .form-bungkus{
@@ -399,6 +419,32 @@ svg{
     border-color: #85b4d0;
 }
 
+.preview-title{
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.xlsx{
+  display: flex;
+}
+
+.xlsx button.btn-preview {
+	max-width: 100px;
+	padding: 0.525rem 1rem;
+	margin-left: 10px;
+	border: 2px solid #4ba6a6;
+	font-size: 1em;
+	font-weight: 500;
+	background: #81ecec;
+	cursor: pointer;
+	transition: all 0.5s;
+  display: none
+}
+
+.xlsx button.btn-preview:hover{
+  background: #52d5d5;
+}
+
 .preview{
   max-width: 300px;
   margin: 10px 0px 25px 0px;
@@ -424,7 +470,7 @@ svg{
 }
 
 .wrapper #msg .error{
-  background-color: #ff4757;
+  background-color: #d94447;
   padding: 13px 34px;
   color: #fff;
   font-weight: 600;
