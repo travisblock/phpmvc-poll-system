@@ -8,7 +8,7 @@
   <img class="foto-kandidat" src="<?= BASEURL . '/public/img/' . $data['img']; ?>" style="max-width:250px">
   <p><?= $data['detail']; ?></p>
   <form method="post" action="<?= BASEURL; ?>/polling/pilih">
-    <input type="hidden" name="idPool" value="<?= $data['id']; ?>">
+    <input type="hidden" name="idPoll" value="<?= $data['id']; ?>">
     <div class="submit-group">
       <input type="submit" class="submit-btn" value="pilih">
       <div class="gap"></div>
