@@ -55,17 +55,65 @@ alert('Gambar Harus png , jpg , atau jpeg');
   }
 }
 
+function uploadXls(){
+  var inputFile = document.getElementById('file');
+  var pathFile = inputFile.value;
+  var ekstensiOk = /(\.xls|\.xlsx|\.csv)$/i;
+  if(!ekstensiOk.exec(pathFile)){
+    alert('File harus xls atau xlsx');
+    inputFile.value = '';
+    return false;
+  }else{
+    var txt1 = document.getElementById("text1");
+    var txt2 = document.getElementById("text2");
+    txt1.style.display = "none";
+    txt2.style.display = "none";
+    var output = document.querySelector("#preview");
+    var form = document.querySelector("#inputForm");
+    var fileInput = document.querySelector("#file");
+    var file = fileInput.files[0];
+    var data = new FormData();
+    data.append('file', file);
+    var url = 'http://192.168.1.13:8081/admin/preview';
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", url,true);
+    xhr.onreadystatechange = function(){
+      if(this.readyState == 4 && this.status == 200){
+        output.innerHTML = this.responseText;
+      }
+    }
+    xhr.send(data);
+  }
+}
 
 window.setTimeout(function(){
   var msg = document.getElementById('msg');
-  msg.classList.toggle('hide');
+  if(msg !== null)
+    msg.classList.toggle('hide');
 }, 3000);
 
 window.setTimeout(function(){
   var msg = document.getElementById('msg');
-  msg.remove();
+  if(msg !== null)
+    msg.remove();
 }, 4000);
 
+
+
+
+
+function checkAll(){
+  var btnCheckHapus = document.querySelector("#btnCheckHapus");
+  var ele = document.querySelectorAll("#checkHapus");
+  for(var i=0;i<ele.length;i++){
+
+    if(btnCheckHapus.checked == true){
+      ele[i].checked = true;
+    }else{
+      ele[i].checked = false;
+    }
+  }
+}
 
 </script>
 </body>
