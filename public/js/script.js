@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function(){
   for (var i=0; i < detail.length; i++){
     detail[i].onclick = function(){
 
-      var id = this.getAttribute('data-id');
+      var id  = this.getAttribute('data-id');
       var url = 'http://192.168.1.13:8081/polling/getPollingById';
       var xhr = new XMLHttpRequest();
 
