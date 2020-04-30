@@ -24,7 +24,7 @@ class Polling extends Controller{
 
   public function pilih(){
     session_start();
-    $idpoll = Input::get('idPool');
+    $idpoll = Input::get('idPoll');
     $iduser = Session::get('id');
     $user   = $this->model('UserMan')->getUserById($iduser);
 
