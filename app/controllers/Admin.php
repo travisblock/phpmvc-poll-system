@@ -5,7 +5,8 @@ class Admin extends Controller{
   public function index(){
     session_start();
     if(empty(Session::get('AdminName'))){
-      $this->view('admin/index');
+      $data['judul'] = 'Login bro';
+      $this->view('admin/index', $data);
     }else{
       header('Location:'. BASEURL .'/admin/dashboard');
       exit();
@@ -91,7 +92,6 @@ class Admin extends Controller{
             $data['nama']   = htmlentities(Input::get('nama'));
             $data['detail'] = htmlentities(Input::get('detail'));
             $data['img_name']  = $_FILES['img']['name'];
-            $data['img_size']  = $_FILES['img']['size'];
             $data['img_tmp']   = $_FILES['img']['tmp_name'];
             $data['img_ext']   = pathinfo($data['img_name'], PATHINFO_EXTENSION);
             $data['img_path']  = "public/img/";
@@ -177,7 +177,6 @@ class Admin extends Controller{
             $data['nama']   = htmlentities($_POST['nama']);
             $data['detail'] = htmlentities($_POST['detail']);
             $data['img_name']  = $_FILES['img']['name'];
-            $data['img_size']  = $_FILES['img']['size'];
             $data['img_tmp']   = $_FILES['img']['tmp_name'];
             $data['img_ext']   = pathinfo($data['img_name'], PATHINFO_EXTENSION);
             $data['img_path']  = "public/img/";
@@ -232,6 +231,17 @@ class Admin extends Controller{
             exit();
           }
 
+        }elseif($param1 == 'massdelete'){
+          $hapus = Input::get('hapusK');
+          if($this->massDelete($hapus, 'PollingControl') > 0){
+            Msg::setMSG('Kandidat berhasil dihapus', 'success');
+            header('Location:'. BASEURL . '/admin/polling');
+            exit();
+          }else{
+            Msg::setMSG('Kandidat gagal dihapus', 'error');
+            header('Location:'. BASEURL . '/admin/polling');
+            exit();
+          }
         }else{
           header('Location:'. BASEURL . '/admin/polling');
           exit();
@@ -279,16 +289,69 @@ class Admin extends Controller{
         }elseif($param1 == 'tambah' && is_null($param2)){
           $data['judul'] = 'Tambah User';
 
-          if(!empty($_POST)){
+          if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $data['username'] = htmlentities(Input::get('username'));
             $data['pass']     = password_hash(Input::get('pass'), PASSWORD_DEFAULT);
 
-            if($this->model('UserMan')->tambah($data) > 0 ){
-              Msg::setMSG('User berhasil ditambahkan', 'success');
-              header('Location:'. BASEURL . '/admin/userman');
-              exit();
-            }else{
-              Msg::setMSG('User gagal ditambahkan', 'error');
+            if(!empty($_FILES['file']['name'])){
+              $data['name']    = $_FILES['file']['name'];
+              $data['tmp']     = $_FILES['file']['tmp_name'];
+              $data['ext']     = pathinfo($data['name'], PATHINFO_EXTENSION);
+              $data['new']     = Upload::rename($data['name']);
+              $data['allowed'] = array('xls', 'xlsx');
+
+              if(in_array($data['ext'], $data['allowed'])){
+
+                if($data['ext'] == 'xls'){
+                    $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+                }elseif($data['ext'] == 'xlsx'){
+                    $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+                }
+
+                $xls = $reader->load($data['tmp']);
+                $data['xls'] = $xls->getActiveSheet()->toArray();
+                $error = 0;
+                for($i = 1;$i < count($data['xls']);$i++){
+
+                  if(empty($data['xls'][$i][0]) || empty($data['xls'][$i][1])){
+                    $error++;
+                  }
+
+                  $data['username'] = $data['xls'][$i][0];
+                  $data['pass']     = $data['xls'][$i][1];
+
+                  if(!empty($data['xls'][$i][0]) && !empty($data['xls'][$i][1])){
+                    $this->model('UserMan')->tambah($data);
+                  }
+                }
+
+                if($error > 0){
+                  Msg::setMSG('Error : Ada field yang kosong', 'error');
+                  header('Location:'. BASEURL . '/admin/userman');
+                  exit();
+                }else{
+                    Msg::setMSG('User berhasil ditambahkan', 'success');
+                    header('Location:'. BASEURL . '/admin/userman');
+                    exit();
+                }
+
+              }else{
+                Msg::setMSG('Hanya boleh .xls dan .xlsx', 'error');
+                header('Location:'. BASEURL . '/admin/userman/tambah');
+                exit();
+              }
+            }elseif(!empty($data['username'])){
+
+              if($this->model('UserMan')->tambah($data) > 0 ){
+                Msg::setMSG('User berhasil ditambahkan', 'success');
+                header('Location:'. BASEURL . '/admin/userman');
+                exit();
+              }else{
+                Msg::setMSG('User gagal ditambahkan', 'error');
+                header('Location:'. BASEURL . '/admin/userman/tambah');
+                exit();
+              }
+
             }
           }
 
@@ -347,6 +410,18 @@ class Admin extends Controller{
             exit();
           }
 
+        }elseif($param1 == 'massdelete'){
+          $hapus = Input::get('hapusU');
+          if($this->massDelete($hapus, 'UserMan') > 0){
+            Msg::setMSG('User berhasil dihapus', 'success');
+            header('Location:'. BASEURL . '/admin/userman');
+            exit();
+          }else{
+            Msg::setMSG('User gagal dihapus', 'error');
+            header('Location:'. BASEURL . '/admin/userman');
+            exit();
+          }
+
         }else{
           header('Location:'. BASEURL . '/admin/userman');
           exit();
@@ -373,6 +448,64 @@ class Admin extends Controller{
   }
 
 
+  public function preview(){
+    session_start();
+    if(Session::exists('AdminName')){
+
+      if(Input::get()){
+        $data['name']    = $_FILES['file']['name'];
+        $data['tmp']     = $_FILES['file']['tmp_name'];
+        $data['ext']     = pathinfo($data['name'], PATHINFO_EXTENSION);
+
+        if(!empty($data['name'])){
+          if($data['ext'] == 'xls'){
+              $reader = new PhpOffice\PhpSpreadsheet\Reader\Xls();
+          }elseif($data['ext'] == 'xlsx'){
+              $reader = new PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+          }
+          $xls = $reader->load($data['tmp']);
+          $data['preview'] = $xls->getActiveSheet()->toArray();
+
+          $data['E_ALL'] = 0;
+          for($i = 1;$i < count($data['preview']);$i++){
+
+            if(empty($data['preview'][$i][0]) || empty($data['preview'][$i][1]))
+              $data['E_ALL']++;
+
+            $data['total'] = $i;
+          }
+
+          $this->view('admin/userman/preview', $data);
+        }
+      }
+
+    }else{
+      header('Location:'. BASEURL . '/admin');
+      exit();
+    }
+  }
+
+  public function massDelete($hapus, $model = null){
+    session_start();
+    if(Session::exists('AdminName')){
+      if(!is_null($model)){
+        if(is_array($hapus)){
+          $berhasil = 0;
+          for($i=0;$i<count($hapus);$i++){
+            if($this->model($model)->hapus($hapus[$i]) > 0)
+              $berhasil++;
+          }
+          return $berhasil;
+        }
+      }else{
+        header('Location:'. BASEURL . '/admin');
+        exit();
+      }
+    }else{
+      header('Location:'. BASEURL . '/admin');
+      exit();
+    }
+  }
 
   public function logout(){
     session_start();
