@@ -25,13 +25,15 @@ class UserMan{
 
   public function tambah($data = null){
     if(!empty($data)){
-      $query = "INSERT INTO user(username,pass,sudah) VALUES(:username, :pass, 0)";
-      $this->db->query($query);
-      $this->db->bind('username', $data['username']);
-      $this->db->bind('pass', $data['pass']);
-      $this->db->execute();
+      if(!$this->userExists($data['username'])){
+        $query = "INSERT INTO user(username,pass,sudah) VALUES(:username, :pass, 0)";
+        $this->db->query($query);
+        $this->db->bind('username', $data['username']);
+        $this->db->bind('pass', $data['pass']);
+        $this->db->execute();
 
-      return $this->db->rowCount();
+        return $this->db->rowCount();
+      }
     }
   }
 
@@ -66,6 +68,15 @@ class UserMan{
     $this->db->execute();
 
     return $this->db->rowCount();
+  }
+
+  public function userExists($user){
+    $query = "SELECT * FROM user WHERE username=:user";
+    $this->db->query($query);
+    $this->db->bind('user', $user);
+    $this->db->execute();
+
+    return ($this->db->rowCount() > 0) ? true : false;
   }
 
 }
