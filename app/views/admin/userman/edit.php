@@ -18,7 +18,7 @@
 
         <div class="input-group-btn">
           <input class="btn submit" type="submit" value="Submit">
-          <button class="btn close" onClick='history.back();'> Batal </button>
+          <a class="btn close" onClick='history.back();'> Batal </a>
         </div>
       </form>
     </div>
