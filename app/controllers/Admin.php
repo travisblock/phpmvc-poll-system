@@ -269,22 +269,10 @@ class Admin extends Controller{
         $data['judul'] = 'User Manager';
         $data['user']  = $this->model('UserMan')->getUser();
 
-        /**
-        *
-        * Untuk Menampilkan index user manager
-        *
-        */
-
         if(is_null($param1) && is_null($param2)){
           $this->view('admin/header', $data);
           $this->view('admin/userman/index', $data);
           $this->view('admin/footer');
-
-          /**
-          *
-          * Untuk Tambah User
-          *
-          */
 
         }elseif($param1 == 'tambah' && is_null($param2)){
           $data['judul'] = 'Tambah User';
@@ -433,14 +421,34 @@ class Admin extends Controller{
       }
   }
 
-  public function setting(){
+  public function setting($param1 = null){
       session_start();
       if(Session::exists('AdminName')){
         $data['judul'] = 'Setting Manager';
-        $data['email'] = Session::get('AdminName');
-        $this->view('admin/header', $data);
-        $this->view('admin/dashboard', $data);
-        $this->view('admin/footer');
+        $data['tampilan'] = $this->model('Settings')->getTamplan();
+
+        if($param1 == 'tampilan'){
+          if(isset($_POST)){
+            $data['title']  = htmlentities(Input::get('title'));
+            $data['desc']   = htmlentities(Input::get('desc'));
+
+            if($this->model('Settings')->tampilan($data)){
+              Msg::setMSG('Settings berhasil disimpan', 'success');
+              ob_flush();
+              header('Location:'. BASEURL . '/admin/setting');
+            }else{
+              Msg::setMSG('Settings gagal disimpan', 'error');
+              header('Location:'. BASEURL . '/admin/setting');
+            }
+
+          }
+
+        }else {
+          $this->view('admin/header', $data);
+          $this->view('admin/setting/index', $data);
+          $this->view('admin/footer');
+        }
+
       }else{
         header('Location:'. BASEURL . '/admin');
         exit();
@@ -452,12 +460,12 @@ class Admin extends Controller{
     session_start();
     if(Session::exists('AdminName')){
 
-      if(Input::get()){
-        $data['name']    = $_FILES['file']['name'];
-        $data['tmp']     = $_FILES['file']['tmp_name'];
-        $data['ext']     = pathinfo($data['name'], PATHINFO_EXTENSION);
+        if(!empty($_FILES['file']['name'])){
 
-        if(!empty($data['name'])){
+            $data['name']    = $_FILES['file']['name'];
+            $data['tmp']     = $_FILES['file']['tmp_name'];
+            $data['ext']     = pathinfo($data['name'], PATHINFO_EXTENSION);
+
           if($data['ext'] == 'xls'){
               $reader = new PhpOffice\PhpSpreadsheet\Reader\Xls();
           }elseif($data['ext'] == 'xlsx'){
@@ -477,7 +485,6 @@ class Admin extends Controller{
 
           $this->view('admin/userman/preview', $data);
         }
-      }
 
     }else{
       header('Location:'. BASEURL . '/admin');
