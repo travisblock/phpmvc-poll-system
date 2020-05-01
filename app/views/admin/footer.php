@@ -41,9 +41,14 @@ Array.from(document.querySelectorAll(".sidebar a")).forEach(function(itm){
 
 
 function validasiFile(){
-var output=document.getElementById('preview');
-output.src=URL.createObjectURL(event.target.files[0]);
+var output     = document.getElementById('preview');
+var namaUpload = document.getElementById('namaUpload');
+var namaFile   = event.target.files[0]['name'];
+var inputfile  = document.querySelector('.inputfile');
+output.src     = URL.createObjectURL(event.target.files[0]);
 output.classList.add('preview');
+namaUpload.innerHTML = namaFile;
+inputfile.classList.add('focus');
 
 var inputFile = document.getElementById('file');
 var pathFile = inputFile.value;
@@ -56,8 +61,10 @@ alert('Gambar Harus png , jpg , atau jpeg');
 }
 
 function uploadXls(){
-  var inputFile = document.getElementById('file');
-  var pathFile = inputFile.value;
+  var inputFile  = document.getElementById('file');
+  var pathFile   = inputFile.value;
+  var namaUpload = document.getElementById('namaUpload');
+  var namaFile   = event.target.files[0]['name'];
   var ekstensiOk = /(\.xls|\.xlsx|\.csv)$/i;
   if(!ekstensiOk.exec(pathFile)){
     alert('File harus xls atau xlsx');
@@ -68,6 +75,7 @@ function uploadXls(){
     var txt2 = document.getElementById("text2");
     txt1.style.display = "none";
     txt2.style.display = "none";
+    namaUpload.innerHTML = namaFile;
     var output = document.querySelector("#preview");
     var form = document.querySelector("#inputForm");
     var fileInput = document.querySelector("#file");
