@@ -3,11 +3,11 @@
     <h2>Polling Manager</h2>
   </div>
   <div class="content">
-    <a class="tbl-aksi tbl-add" href="<?= BASEURL; ?>/admin/polling/tambah">+ tambah kandidat</a>
-    <div class="tabel-responsive">
-      <form id="massDelete" style="width:100%" method="POST" action="<?= BASEURL; ?>/admin/polling/massdelete">
+    <form id="massDelete" style="width:100%" method="POST" action="<?= BASEURL; ?>/admin/polling/massdelete">
+      <a class="tbl-aksi tbl-add" href="<?= BASEURL; ?>/admin/polling/tambah">+ tambah kandidat</a>
+      <input type="submit" class="tbl-aksi tbl-del" onclick="return confirm('Yakin akan menghapus user secara massal ?')" value="Mass Delete">
+      <div class="tabel-responsive">
         <table class="tabel">
-
           <thead>
             <tr>
               <th><input type="checkbox" id="btnCheckHapus" onclick="checkAll()"></th>
@@ -40,9 +40,8 @@
             ?>
           </tbody>
         </table>
-        <input type="submit" class="tbl-aksi tbl-del" value="Mass Delete">
-      </form>
-    </div>
+      </div>
+    </form>
   </div>
 
 </div>
