@@ -414,7 +414,7 @@ svg{
 }
 
 .inputfile:focus + label,
-.inputfile.has-focus + label,
+.inputfile.focus + label,
 .inputfile + label:hover {
     border-color: #85b4d0;
 }
