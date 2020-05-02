@@ -65,21 +65,24 @@ function uploadXls(){
   var pathFile   = inputFile.value;
   var namaUpload = document.getElementById('namaUpload');
   var namaFile   = event.target.files[0]['name'];
+  var txt1       = document.getElementById("text1");
+  var txt2       = document.getElementById("text2");
+  var output     = document.querySelector("#preview");
+  var form       = document.querySelector("#inputForm");
+  var fileInput  = document.querySelector("#file");
+  var file       = fileInput.files[0];
+
   var ekstensiOk = /(\.xls|\.xlsx|\.csv)$/i;
   if(!ekstensiOk.exec(pathFile)){
     alert('File harus xls atau xlsx');
     inputFile.value = '';
     return false;
   }else{
-    var txt1 = document.getElementById("text1");
-    var txt2 = document.getElementById("text2");
+
     txt1.style.display = "none";
     txt2.style.display = "none";
     namaUpload.innerHTML = namaFile;
-    var output = document.querySelector("#preview");
-    var form = document.querySelector("#inputForm");
-    var fileInput = document.querySelector("#file");
-    var file = fileInput.files[0];
+
     var data = new FormData();
     data.append('file', file);
     var url = 'http://192.168.1.13:8081/admin/preview';
