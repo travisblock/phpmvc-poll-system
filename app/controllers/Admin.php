@@ -8,8 +8,7 @@ class Admin extends Controller{
       $data['judul'] = 'Login bro';
       $this->view('admin/index', $data);
     }else{
-      header('Location:'. BASEURL .'/admin/dashboard');
-      exit();
+      Redirect::to(BASEURL.'/admin/dashboard');
     }
 
   }
@@ -25,16 +24,13 @@ class Admin extends Controller{
         Session::set('AdminName', $data['user']);
         Session::set('email', $data['email']);
 
-        header('Location:'. BASEURL . '/admin/dashboard');
-        exit();
+        Redirect::to(BASEURL.'/admin/dashboard');
       }else{
-        header('Location:'. BASEURL . '/admin');
-        exit();
+        Redirect::to(BASEURL.'/admin');
       }
 
     }else{
-      header('Location:'. BASEURL . '/admin');
-      exit();
+      Redirect::to(BASEURL.'/admin');
     }
   }
 
@@ -47,8 +43,7 @@ class Admin extends Controller{
         $this->view('admin/dashboard', $data);
         $this->view('admin/footer');
       }else{
-        header('Location:'. BASEURL . '/admin');
-        exit();
+        Redirect::to(BASEURL.'/admin');
       }
   }
 
@@ -89,26 +84,24 @@ class Admin extends Controller{
 
           if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['nama'])){
 
-            $data['nama']   = htmlentities(Input::get('nama'));
-            $data['detail'] = htmlentities(Input::get('detail'));
+            $data['nama']      = htmlentities(Input::get('nama'));
+            $data['detail']    = htmlentities(Input::get('detail'));
             $data['img_name']  = $_FILES['img']['name'];
             $data['img_tmp']   = $_FILES['img']['tmp_name'];
             $data['img_ext']   = pathinfo($data['img_name'], PATHINFO_EXTENSION);
             $data['img_path']  = "public/img/";
             $data['allow_ext'] = array('jpg', 'JPG', 'png', 'PNG', 'jpeg');
-            $data['new_name'] = Upload::rename($data['img_name']);
+            $data['new_name']  = Upload::rename($data['img_name']);
 
 
             if(empty($data['img_name'])){
 
               if($this->model('PollingControl')->tambah($data) > 0){
                 Msg::setMSG('Berhasil tambah kandidat', 'success');
-                header('Location:'. BASEURL . '/admin/polling');
-                exit();
+                Redirect::to(BASEURL.'/admin/polling');
               }else{
                 Msg::setMSG('Gagal tambah kandidat', 'error');
-                header('Location:'. BASEURL . '/admin/polling/tambah');
-                exit();
+                Redirect::to(BASEURL.'/admin/polling/tambah');
               }
 
             }else{
@@ -118,20 +111,17 @@ class Admin extends Controller{
 
                   if($this->model('PollingControl')->tambah($data) > 0){
                     Msg::setMSG('Berhasil tambah kandidat', 'success');
-                    header('Location:'. BASEURL . '/admin/polling');
-                    exit();
+                    Redirect::to(BASEURL.'/admin/polling');
 
                   }else{
                     Msg::setMSG('Gagal tambah kandidat', 'error');
-                    header('Location:'. BASEURL . '/admin/polling/tambah');
-                    exit();
+                    Redirect::to(BASEURL.'/admin/polling/tambah');
                   }
 
                 }
               }else{
                 Msg::setMSG('Hanya boleh upload jpg, png, jpeg', 'error');
-                header('Location:'. BASEURL . '/admin/polling/tambah');
-                exit();
+                Redirect::to(BASEURL.'/admin/polling/tambah');
               }
             }
           }
@@ -155,12 +145,10 @@ class Admin extends Controller{
 
           if($this->model('PollingControl')->hapus($param2) > 0){
             Msg::setMSG('Berhasil hapus kandidat', 'success');
-            header('Location:'. BASEURL . '/admin/polling');
-            exit();
+            Redirect::to(BASEURL.'/admin/polling');
           }else{
             Msg::setMSG('Gagal hapus kandidat', 'error');
-            header('Location:'. BASEURL . '/admin/polling');
-            exit();
+            Redirect::to(BASEURL.'/admin/polling');
           }
 
           /**
@@ -174,24 +162,22 @@ class Admin extends Controller{
           $data['kandidat'] = $this->model('PollingUser')->getPollById($param2);
 
           if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['nama'])){
-            $data['nama']   = htmlentities($_POST['nama']);
-            $data['detail'] = htmlentities($_POST['detail']);
+            $data['nama']      = htmlentities($_POST['nama']);
+            $data['detail']    = htmlentities($_POST['detail']);
             $data['img_name']  = $_FILES['img']['name'];
             $data['img_tmp']   = $_FILES['img']['tmp_name'];
             $data['img_ext']   = pathinfo($data['img_name'], PATHINFO_EXTENSION);
             $data['img_path']  = "public/img/";
             $data['allow_ext'] = array('jpg', 'JPG', 'png', 'PNG', 'jpeg');
-            $data['new_name'] = Upload::rename($data['img_name']);
+            $data['new_name']  = Upload::rename($data['img_name']);
 
             if(empty($data['img_name'])){
               if($this->model('PollingControl')->edit($data, $param2) > 0){
                 Msg::setMSG('Berhasil tambah kandidat', 'success');
-                header("Location:".BASEURL."/admin/polling");
-                exit();
+                Redirect::to(BASEURL.'/admin/polling');
               }else{
                 Msg::setMSG('Gagal edit kandidat', 'error');
-                header("Location:".BASEURL."/admin/polling/edit/". $data['kandidat']['id']);
-                exit();
+                Redirect::to(BASEURL.'/admin/polling/edit'. $data['kandidat']['id']);
               }
             }else{
 
@@ -205,19 +191,16 @@ class Admin extends Controller{
 
                   if($this->model('PollingControl')->edit($data, $param2) > 0){
                     Msg::setMSG('Berhasil edit kandidat', 'success');
-                    header('Location:'. BASEURL . '/admin/polling');
-                    exit();
+                    Redirect::to(BASEURL.'/admin/polling');
                   }else{
                     Msg::setMSG('Gagal edit kandidat', 'error');
-                    header("Location:".BASEURL."/admin/polling/edit/". $data['kandidat']['id']);
-                    exit();
+                    Redirect::to(BASEURL.'/admin/polling/edit'. $data['kandidat']['id']);
                   }
                 }
 
               }else{
                 Msg::setMSG('Hanya boleh JPG dan PNG', 'error');
-                header("Location:".BASEURL."/admin/polling/edit/". $data['kandidat']['id']);
-                exit();
+                Redirect::to(BASEURL.'/admin/polling/edit'. $data['kandidat']['id']);
               }
             }
           }
@@ -227,29 +210,24 @@ class Admin extends Controller{
             $this->view('admin/polling/edit', $data);
             $this->view('admin/footer');
           }else{
-            header('Location:'. BASEURL . '/admin/polling');
-            exit();
+            Redirect::to(BASEURL.'/admin/polling');
           }
 
         }elseif($param1 == 'massdelete'){
           $hapus = Input::get('hapusK');
           if($this->massDelete($hapus, 'PollingControl') > 0){
             Msg::setMSG('Kandidat berhasil dihapus', 'success');
-            header('Location:'. BASEURL . '/admin/polling');
-            exit();
+            Redirect::to(BASEURL.'/admin/polling');
           }else{
             Msg::setMSG('Kandidat gagal dihapus', 'error');
-            header('Location:'. BASEURL . '/admin/polling');
-            exit();
+            Redirect::to(BASEURL.'/admin/polling');
           }
         }else{
-          header('Location:'. BASEURL . '/admin/polling');
-          exit();
+          Redirect::to(BASEURL.'/admin/polling');
         }
 
       }else{
-        header('Location:'. BASEURL . '/admin');
-        exit();
+        Redirect::to(BASEURL.'/admin');
       }
   }
 
@@ -285,7 +263,6 @@ class Admin extends Controller{
               $data['name']    = $_FILES['file']['name'];
               $data['tmp']     = $_FILES['file']['tmp_name'];
               $data['ext']     = pathinfo($data['name'], PATHINFO_EXTENSION);
-              $data['new']     = Upload::rename($data['name']);
               $data['allowed'] = array('xls', 'xlsx');
 
               if(in_array($data['ext'], $data['allowed'])){
@@ -315,29 +292,24 @@ class Admin extends Controller{
 
                 if($error > 0){
                   Msg::setMSG('Error : Ada field yang kosong', 'error');
-                  header('Location:'. BASEURL . '/admin/userman');
-                  exit();
+                  Redirect::to(BASEURL.'/admin/userman');
                 }else{
                     Msg::setMSG('User berhasil ditambahkan', 'success');
-                    header('Location:'. BASEURL . '/admin/userman');
-                    exit();
+                    Redirect::to(BASEURL.'/admin/userman');
                 }
 
               }else{
                 Msg::setMSG('Hanya boleh .xls dan .xlsx', 'error');
-                header('Location:'. BASEURL . '/admin/userman/tambah');
-                exit();
+                Redirect::to(BASEURL.'/admin/userman/tambah');
               }
             }elseif(!empty($data['username'])){
 
               if($this->model('UserMan')->tambah($data) > 0 ){
                 Msg::setMSG('User berhasil ditambahkan', 'success');
-                header('Location:'. BASEURL . '/admin/userman');
-                exit();
+                Redirect::to(BASEURL.'/admin/userman');
               }else{
                 Msg::setMSG('User gagal ditambahkan', 'error');
-                header('Location:'. BASEURL . '/admin/userman/tambah');
-                exit();
+                Redirect::to(BASEURL.'/admin/userman/tambah');
               }
 
             }
@@ -356,12 +328,10 @@ class Admin extends Controller{
         }elseif($param1 == 'hapus' && !is_null($param2)){
           if($this->model('UserMan')->hapus($param2) > 0){
             Msg::setMSG('User behasil dihapus', 'success');
-            header('Location:'. BASEURL . '/admin/userman');
-            exit();
+            Redirect::to(BASEURL.'/admin/userman');
           }else{
             Msg::setMSG('User gagal dihapus', 'error');
-            header('Location:'. BASEURL . '/admin/userman');
-            exit();
+            Redirect::to(BASEURL.'/admin/userman');
           }
 
           /**
@@ -380,12 +350,10 @@ class Admin extends Controller{
 
             if($this->model('UserMan')->edit($data, $param2) > 0){
               Msg::setMSG('User berhasil diubah', 'success');
-              header('Location:'. BASEURL . '/admin/userman');
-              exit();
+              Redirect::to(BASEURL.'/admin/userman');
             }else{
               Msg::setMSG('User gagal diubah', 'error');
-              header('Location:'. BASEURL . '/admin/userman/edit/' . $data['user']['id']);
-              exit();
+              Redirect::to(BASEURL.'/admin/userman/edit/'. $data['user']['id']);
             }
           }
 
@@ -394,30 +362,25 @@ class Admin extends Controller{
             $this->view('admin/userman/edit', $data);
             $this->view('admin/footer');
           }else{
-            header('Location:'. BASEURL . '/admin/userman');
-            exit();
+            Redirect::to(BASEURL.'/admin/userman');
           }
 
         }elseif($param1 == 'massdelete'){
           $hapus = Input::get('hapusU');
           if($this->massDelete($hapus, 'UserMan') > 0){
             Msg::setMSG('User berhasil dihapus', 'success');
-            header('Location:'. BASEURL . '/admin/userman');
-            exit();
+            Redirect::to(BASEURL.'/admin/userman');
           }else{
             Msg::setMSG('User gagal dihapus', 'error');
-            header('Location:'. BASEURL . '/admin/userman');
-            exit();
+            Redirect::to(BASEURL.'/admin/userman');
           }
 
         }else{
-          header('Location:'. BASEURL . '/admin/userman');
-          exit();
+          Redirect::to(BASEURL.'/admin/userman');
         }
 
       }else{
-        header('Location:'. BASEURL . '/admin');
-        exit();
+        Redirect::to(BASEURL.'/admin');
       }
   }
 
@@ -434,11 +397,10 @@ class Admin extends Controller{
 
             if($this->model('Settings')->tampilan($data)){
               Msg::setMSG('Settings berhasil disimpan', 'success');
-              ob_flush();
-              header('Location:'. BASEURL . '/admin/setting');
+
             }else{
               Msg::setMSG('Settings gagal disimpan', 'error');
-              header('Location:'. BASEURL . '/admin/setting');
+              Redirect::to(BASEURL.'/admin/setting');
             }
 
           }
@@ -450,8 +412,7 @@ class Admin extends Controller{
         }
 
       }else{
-        header('Location:'. BASEURL . '/admin');
-        exit();
+        Redirect::to(BASEURL.'/admin');
       }
   }
 
@@ -487,8 +448,7 @@ class Admin extends Controller{
         }
 
     }else{
-      header('Location:'. BASEURL . '/admin');
-      exit();
+      Redirect::to(BASEURL.'/admin');
     }
   }
 
@@ -505,20 +465,17 @@ class Admin extends Controller{
           return $berhasil;
         }
       }else{
-        header('Location:'. BASEURL . '/admin');
-        exit();
+        Redirect::to(BASEURL.'/admin');
       }
     }else{
-      header('Location:'. BASEURL . '/admin');
-      exit();
+      Redirect::to(BASEURL.'/admin');
     }
   }
 
   public function logout(){
     session_start();
     Session_destroy();
-    header('Location:'. BASEURL . '/admin');
-    exit();
+    Redirect::to(BASEURL.'/admin');
   }
 
 }
