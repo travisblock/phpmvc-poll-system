@@ -56,6 +56,9 @@ var ekstensiOk = /(\.jpg|\.png|\.jpeg)$/i;
 if(!ekstensiOk.exec(pathFile)){
 alert('Gambar Harus png , jpg , atau jpeg');
   inputFile.value = '';
+  namaUpload.innerHTML = "Upload File";
+  inputfile.classList.remove('focus');
+  output.remove();
   return false;
   }
 }
