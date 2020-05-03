@@ -261,28 +261,27 @@ class Admin extends Controller{
         }elseif($param1 == 'tambah' && is_null($param2)){
           $data['judul'] = 'Tambah User';
 
-          if($_SERVER['REQUEST_METHOD'] == 'POST'){
+          if(Input::exists('POST')){
             $data['username'] = htmlentities(Input::get('username'));
             $data['pass']     = password_hash(Input::get('pass'), PASSWORD_DEFAULT);
 
-            if(!empty($_FILES['file']['name'])){
-              $data['name']    = $_FILES['file']['name'];
-              $data['tmp']     = $_FILES['file']['tmp_name'];
-              $data['ext']     = pathinfo($data['name'], PATHINFO_EXTENSION);
-              $data['allowed'] = array('xls', 'xlsx');
+            if(Input::exists('FILES', 'file')){
 
-              if(in_array($data['ext'], $data['allowed'])){
+              $file = new Upload($_FILES['file']);
 
-                if($data['ext'] == 'xls'){
+              if($file->allowed('xls')){
+
+                if($file->getExt() === 'xls'){
                     $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
-                }elseif($data['ext'] == 'xlsx'){
+                }else{
                     $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
                 }
 
-                $xls = $reader->load($data['tmp']);
+                $xls = $reader->load($file->getTmp());
                 $data['xls'] = $xls->getActiveSheet()->toArray();
                 $error = 0;
-                for($i = 1;$i < count($data['xls']);$i++){
+                $jml   = count($data['xls']);
+                for($i = 1;$i < $jml ;$i++){
 
                   if(empty($data['xls'][$i][0]) || empty($data['xls'][$i][1])){
                     $error++;
@@ -429,32 +428,37 @@ class Admin extends Controller{
 
 
   public function preview(){
+
+    /**
+    * I GOT STUCK HERE
+    */
     if(Session::exists('AdminName')){
-        if(!empty($_FILES['file']['name'])){
 
-            $data['name']    = $_FILES['file']['name'];
-            $data['tmp']     = $_FILES['file']['tmp_name'];
-            $data['ext']     = pathinfo($data['name'], PATHINFO_EXTENSION);
+      if(Input::exists('FILES', 'file')){
 
-          if($data['ext'] == 'xls'){
-              $reader = new PhpOffice\PhpSpreadsheet\Reader\Xls();
-          }elseif($data['ext'] == 'xlsx'){
-              $reader = new PhpOffice\PhpSpreadsheet\Reader\Xlsx();
-          }
-          $xls = $reader->load($data['tmp']);
-          $data['preview'] = $xls->getActiveSheet()->toArray();
+        $file = new Upload($_FILES['file']);
 
-          $data['E_ALL'] = 0;
-          for($i = 1;$i < count($data['preview']);$i++){
-
-            if(empty($data['preview'][$i][0]) || empty($data['preview'][$i][1]))
-              $data['E_ALL']++;
-
-            $data['total'] = $i;
-          }
-
-          $this->view('admin/userman/preview', $data);
+        if($file->getExt() === 'xls'){
+            $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+        }else{
+            $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
         }
+
+        $xls = $reader->load($file->getTmp());
+        $data['preview'] = $xls->getActiveSheet()->toArray();
+
+        $data['E_ALL'] = 0;
+        $jml = count($data['preview']);
+        for($i = 1;$i < $jml;$i++){
+
+          if(empty($data['preview'][$i][0]) || empty($data['preview'][$i][1]))
+            $data['E_ALL']++;
+
+          $data['total'] = $i;
+        }
+
+        $this->view('admin/userman/preview', $data);
+      }
 
     }else{
       Redirect::to(BASEURL.'/admin');
@@ -466,7 +470,8 @@ class Admin extends Controller{
       if(!is_null($model)){
         if(is_array($hapus)){
           $berhasil = 0;
-          for($i=0;$i<count($hapus);$i++){
+          $jml      = count($hapus);
+          for($i=0;$i< $jml;$i++){
             if($this->model($model)->hapus($hapus[$i]) > 0)
               $berhasil++;
           }
