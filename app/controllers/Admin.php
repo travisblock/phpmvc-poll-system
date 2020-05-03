@@ -3,7 +3,6 @@
 class Admin extends Controller{
 
   public function index(){
-    session_start();
     if(empty(Session::get('AdminName'))){
       $data['judul'] = 'Login bro';
       $this->view('admin/index', $data);
@@ -19,7 +18,6 @@ class Admin extends Controller{
     if(!empty($username)){
       $data = $this->model('LoginAdmin')->login($username, $password);
       if($data){
-        session_start();
         Session::set('id', $data['id']);
         Session::set('AdminName', $data['user']);
         Session::set('email', $data['email']);
@@ -35,7 +33,6 @@ class Admin extends Controller{
   }
 
   public function dashboard(){
-      session_start();
       if(Session::exists('AdminName')){
         $data['judul'] = 'Dashboard';
         $data['email'] = Session::get('email');
@@ -57,7 +54,6 @@ class Admin extends Controller{
   */
 
   public function polling($param1 = null, $param2 = null){
-      session_start();
       if(Session::exists('AdminName')){
         $data['judul']   = 'Polling';
         $data['polling'] = $this->model('PollingUser')->getPolling();
@@ -82,19 +78,34 @@ class Admin extends Controller{
         }elseif($param1 == 'tambah' && is_null($param2)){
           $data['judul'] = 'Tambah Kandidat';
 
-          if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['nama'])){
+          if(Input::exists('POST', 'nama')){
 
-            $data['nama']      = htmlentities(Input::get('nama'));
-            $data['detail']    = htmlentities(Input::get('detail'));
-            $data['img_name']  = $_FILES['img']['name'];
-            $data['img_tmp']   = $_FILES['img']['tmp_name'];
-            $data['img_ext']   = pathinfo($data['img_name'], PATHINFO_EXTENSION);
-            $data['img_path']  = "public/img/";
-            $data['allow_ext'] = array('jpg', 'JPG', 'png', 'PNG', 'jpeg');
-            $data['new_name']  = Upload::rename($data['img_name']);
+            $data['nama']   = htmlentities(Input::get('nama'));
+            $data['detail'] = htmlentities(Input::get('detail'));
 
+            if(Input::exists('FILES', 'img')){
 
-            if(empty($data['img_name'])){
+              $gambar = new Upload($_FILES['img'], 'public/img/');
+
+              if($gambar->uploaded('images')){
+
+                $data['new_name'] = $gambar->getNewName();
+
+                if($this->model('PollingControl')->tambah($data) > 0){
+                  Msg::setMSG('Berhasil tambah kandidat', 'success');
+                  Redirect::to(BASEURL.'/admin/polling');
+
+                }else{
+                  Msg::setMSG('Gagal tambah kandidat', 'error');
+                  Redirect::to(BASEURL.'/admin/polling/tambah');
+                }
+
+              }else{
+                Msg::setMSG('Gagal upload foto kandidat', 'error');
+                Redirect::to(BASEURL.'/admin/polling/tambah');
+              }
+
+            }else{
 
               if($this->model('PollingControl')->tambah($data) > 0){
                 Msg::setMSG('Berhasil tambah kandidat', 'success');
@@ -104,25 +115,6 @@ class Admin extends Controller{
                 Redirect::to(BASEURL.'/admin/polling/tambah');
               }
 
-            }else{
-              if(in_array($data['img_ext'], $data['allow_ext'])){
-
-                if(move_uploaded_file($data['img_tmp'], $data['img_path'] . $data['new_name'])){
-
-                  if($this->model('PollingControl')->tambah($data) > 0){
-                    Msg::setMSG('Berhasil tambah kandidat', 'success');
-                    Redirect::to(BASEURL.'/admin/polling');
-
-                  }else{
-                    Msg::setMSG('Gagal tambah kandidat', 'error');
-                    Redirect::to(BASEURL.'/admin/polling/tambah');
-                  }
-
-                }
-              }else{
-                Msg::setMSG('Hanya boleh upload jpg, png, jpeg', 'error');
-                Redirect::to(BASEURL.'/admin/polling/tambah');
-              }
             }
           }
 
@@ -133,6 +125,65 @@ class Admin extends Controller{
           /**
           *
           * Untuk Hapus kandidat
+          *
+          */
+
+        }elseif($param1 == 'edit' && !is_null($param2)){
+          $data['judul']    = 'Edit Kandidat';
+          $data['kandidat'] = $this->model('PollingUser')->getPollById($param2);
+
+          if(Input::exists('POST', 'nama')){
+            $data['nama']      = htmlentities($_POST['nama']);
+            $data['detail']    = htmlentities($_POST['detail']);
+
+            if(Input::exists('FILES', 'img')){
+
+              $gambar = new Upload($_FILES['img'], 'public/img/');
+
+              if($gambar->uploaded('images')){
+                $data['new_name'] = $gambar->getNewName();
+
+                if(is_file('public/img/'. $data['kandidat']['img'])){
+                  unlink('public/img/'. $data['kandidat']['img']);
+                }
+
+                if($this->model('PollingControl')->edit($data, $param2) > 0){
+                  Msg::setMSG('Berhasil edit kandidat', 'success');
+                  Redirect::to(BASEURL.'/admin/polling');
+                }else{
+                  Msg::setMSG('Gagal edit kandidat', 'error');
+                  Redirect::to(BASEURL.'/admin/polling/edit'. $data['kandidat']['id']);
+                }
+
+              }else{
+                Msg::setMSG('Gagal upload foto kandidat', 'error');
+                Redirect::to(BASEURL.'/admin/polling/edit'. $data['kandidat']['id']);
+              }
+
+            }else{
+
+              if($this->model('PollingControl')->edit($data, $param2) > 0){
+                Msg::setMSG('Berhasil tambah kandidat', 'success');
+                Redirect::to(BASEURL.'/admin/polling');
+              }else{
+                Msg::setMSG('Gagal edit kandidat', 'error');
+                Redirect::to(BASEURL.'/admin/polling/edit'. $data['kandidat']['id']);
+              }
+
+            }
+          }
+
+          if($data['kandidat']){
+            $this->view('admin/header', $data);
+            $this->view('admin/polling/edit', $data);
+            $this->view('admin/footer');
+          }else{
+            Redirect::to(BASEURL.'/admin/polling');
+          }
+
+          /**
+          *
+          * Untuk Hapus kandidat secara single
           *
           */
 
@@ -153,65 +204,9 @@ class Admin extends Controller{
 
           /**
           *
-          * Untuk Edit kandidat
+          * Untuk Hapus kandidat secara massal
           *
           */
-
-        }elseif($param1 == 'edit' && !is_null($param2)){
-          $data['judul']    = 'Edit Kandidat';
-          $data['kandidat'] = $this->model('PollingUser')->getPollById($param2);
-
-          if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['nama'])){
-            $data['nama']      = htmlentities($_POST['nama']);
-            $data['detail']    = htmlentities($_POST['detail']);
-            $data['img_name']  = $_FILES['img']['name'];
-            $data['img_tmp']   = $_FILES['img']['tmp_name'];
-            $data['img_ext']   = pathinfo($data['img_name'], PATHINFO_EXTENSION);
-            $data['img_path']  = "public/img/";
-            $data['allow_ext'] = array('jpg', 'JPG', 'png', 'PNG', 'jpeg');
-            $data['new_name']  = Upload::rename($data['img_name']);
-
-            if(empty($data['img_name'])){
-              if($this->model('PollingControl')->edit($data, $param2) > 0){
-                Msg::setMSG('Berhasil tambah kandidat', 'success');
-                Redirect::to(BASEURL.'/admin/polling');
-              }else{
-                Msg::setMSG('Gagal edit kandidat', 'error');
-                Redirect::to(BASEURL.'/admin/polling/edit'. $data['kandidat']['id']);
-              }
-            }else{
-
-              if(in_array($data['img_ext'], $data['allow_ext'])){
-
-                if(move_uploaded_file($data['img_tmp'], $data['img_path'] . $data['new_name'])){
-
-                  if(is_file('public/img/'. $data['kandidat']['img'])){
-                    unlink('public/img/'. $data['kandidat']['img']);
-                  }
-
-                  if($this->model('PollingControl')->edit($data, $param2) > 0){
-                    Msg::setMSG('Berhasil edit kandidat', 'success');
-                    Redirect::to(BASEURL.'/admin/polling');
-                  }else{
-                    Msg::setMSG('Gagal edit kandidat', 'error');
-                    Redirect::to(BASEURL.'/admin/polling/edit'. $data['kandidat']['id']);
-                  }
-                }
-
-              }else{
-                Msg::setMSG('Hanya boleh JPG dan PNG', 'error');
-                Redirect::to(BASEURL.'/admin/polling/edit'. $data['kandidat']['id']);
-              }
-            }
-          }
-
-          if($data['kandidat']){
-            $this->view('admin/header', $data);
-            $this->view('admin/polling/edit', $data);
-            $this->view('admin/footer');
-          }else{
-            Redirect::to(BASEURL.'/admin/polling');
-          }
 
         }elseif($param1 == 'massdelete'){
           $hapus = Input::get('hapusK');
@@ -242,15 +237,26 @@ class Admin extends Controller{
   */
 
   public function userman($param1 = null, $param2 = null){
-      session_start();
       if(Session::exists('AdminName')){
         $data['judul'] = 'User Manager';
         $data['user']  = $this->model('UserMan')->getUser();
+
+        /**
+        *
+        * Untuk menampilkan data user
+        *
+        */
 
         if(is_null($param1) && is_null($param2)){
           $this->view('admin/header', $data);
           $this->view('admin/userman/index', $data);
           $this->view('admin/footer');
+
+          /**
+          *
+          * Untuk tambah data user
+          *
+          */
 
         }elseif($param1 == 'tambah' && is_null($param2)){
           $data['judul'] = 'Tambah User';
@@ -321,22 +327,7 @@ class Admin extends Controller{
 
           /**
           *
-          * Untuk Hapus User
-          *
-          */
-
-        }elseif($param1 == 'hapus' && !is_null($param2)){
-          if($this->model('UserMan')->hapus($param2) > 0){
-            Msg::setMSG('User behasil dihapus', 'success');
-            Redirect::to(BASEURL.'/admin/userman');
-          }else{
-            Msg::setMSG('User gagal dihapus', 'error');
-            Redirect::to(BASEURL.'/admin/userman');
-          }
-
-          /**
-          *
-          * Untuk Edit User
+          * Untuk edit  User
           *
           */
 
@@ -365,6 +356,27 @@ class Admin extends Controller{
             Redirect::to(BASEURL.'/admin/userman');
           }
 
+          /**
+          *
+          * Untuk Hapus User single
+          *
+          */
+
+        }elseif($param1 == 'hapus' && !is_null($param2)){
+          if($this->model('UserMan')->hapus($param2) > 0){
+            Msg::setMSG('User behasil dihapus', 'success');
+            Redirect::to(BASEURL.'/admin/userman');
+          }else{
+            Msg::setMSG('User gagal dihapus', 'error');
+            Redirect::to(BASEURL.'/admin/userman');
+          }
+
+          /**
+          *
+          * Untuk Hapus User secara massal
+          *
+          */
+
         }elseif($param1 == 'massdelete'){
           $hapus = Input::get('hapusU');
           if($this->massDelete($hapus, 'UserMan') > 0){
@@ -385,7 +397,6 @@ class Admin extends Controller{
   }
 
   public function setting($param1 = null){
-      session_start();
       if(Session::exists('AdminName')){
         $data['judul'] = 'Setting Manager';
         $data['tampilan'] = $this->model('Settings')->getTamplan();
@@ -418,9 +429,7 @@ class Admin extends Controller{
 
 
   public function preview(){
-    session_start();
     if(Session::exists('AdminName')){
-
         if(!empty($_FILES['file']['name'])){
 
             $data['name']    = $_FILES['file']['name'];
@@ -453,7 +462,6 @@ class Admin extends Controller{
   }
 
   public function massDelete($hapus, $model = null){
-    session_start();
     if(Session::exists('AdminName')){
       if(!is_null($model)){
         if(is_array($hapus)){
@@ -473,7 +481,6 @@ class Admin extends Controller{
   }
 
   public function logout(){
-    session_start();
     Session_destroy();
     Redirect::to(BASEURL.'/admin');
   }
