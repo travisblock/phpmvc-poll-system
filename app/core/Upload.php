@@ -34,12 +34,16 @@ class Upload{
     return $this->newName;
   }
 
-  public function tmpName(){
+  public function getTmp(){
     return $this->tmp;
   }
 
   public function getNewName(){
     return $this->newName;
+  }
+
+  public function getExt(){
+    return $this->ext;
   }
 
   private function allowExt(string $type){
