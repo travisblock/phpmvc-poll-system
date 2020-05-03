@@ -10,11 +10,11 @@
         <table class="tabel">
           <thead>
             <tr>
-              <th><input type="checkbox" id="btnCheckHapus" onclick="checkAll()"></th>
-              <th>No.</th>
-              <th>Nama</th>
-              <th>Detail</th>
-              <th>Action</th>
+              <th width="5%"><input type="checkbox" id="btnCheckHapus" onclick="checkAll()"></th>
+              <th width="5%">No.</th>
+              <th width="25%">Nama</th>
+              <th width="50%">Detail</th>
+              <th width="15%">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -26,10 +26,10 @@
             ?>
             <tr>
               <td width="5%"><input id="checkHapus" type="checkbox" name="hapusK[]" value="<?= $poll['id']; ?>"></td>
-              <td><?= $no; ?></td>
-              <td><?= $poll['name']; ?></td>
-              <td><?= substr($poll['detail'], 0, 90); ?>...</td>
-              <td><a class="tbl-aksi tbl-hapus" href="<?= BASEURL . '/admin/polling/hapus/' . $poll['id']; ?>" onclick="return confirm('Yakin akan menghapus?\nIni juga menghapus fotonya');">Hapus</a>&nbsp;
+              <td width="5%"><?= $no; ?></td>
+              <td width="25%"><?= $poll['name']; ?></td>
+              <td width="50%"><?= substr($poll['detail'], 0, 90); ?>...</td>
+              <td width="15%"><a class="tbl-aksi tbl-hapus" href="<?= BASEURL . '/admin/polling/hapus/' . $poll['id']; ?>" onclick="return confirm('Yakin akan menghapus?\nIni juga menghapus fotonya');">Hapus</a>&nbsp;
                   <a class="tbl-aksi tbl-edit" href="<?= BASEURL . '/admin/polling/edit/' . $poll['id']; ?>">Edit</a>
               </td>
             </tr>
