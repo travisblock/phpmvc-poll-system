@@ -3,12 +3,10 @@
 class User extends Controller{
 
   public function index(){
-    session_start();
     if(empty(Session::get('username'))){
       $this->view('login/index');
     }else{
-      header('Location:'. BASEURL .'/user/home');
-      exit();
+      Redirect::to(BASEURL.'/user/home');
     }
 
   }
@@ -19,24 +17,19 @@ class User extends Controller{
     if(!empty($user) && !empty($pass)){
       $data = $this->model('loginUser')->login($user, $pass);
       if($data){
-        session_start();
         Session::set('username', $data['username']);
         Session::set('id', $data['id']);
-        header('Location:'. BASEURL .'/user/home');
-        exit();
+        Redirect::to(BASEURL.'/user/home');
       }else{
-        header('Location:'. BASEURL .'/user');
-        exit();
+        Redirect::to(BASEURL.'/user');
       }
     }else{
-      header('Location:'. BASEURL . '/user');
-      exit();
+      Redirect::to(BASEURL.'/user');
     }
 
   }
 
   public function home(){
-    session_start();
     if(Session::exists('username')){
       $data['judul'] = 'Polling';
       $data['poll'] = $this->model('PollingUser')->getPolling();
@@ -45,16 +38,13 @@ class User extends Controller{
       $this->view('user/index', $data);
       $this->view('templates/footer');
     }else{
-      header('Location:'. BASEURL . '/user');
-      exit();
+      Redirect::to(BASEURL.'/user');
     }
   }
 
   public function logout(){
-    session_start();
     Session_destroy();
-    header('Location:'. BASEURL);
-    exit();
+    Redirect::to(BASEURL);
   }
 
   // public function register(){
