@@ -41,25 +41,26 @@ Array.from(document.querySelectorAll(".sidebar a")).forEach(function(itm){
 
 
 function validasiFile(){
-var output     = document.getElementById('preview');
-var namaUpload = document.getElementById('namaUpload');
-var namaFile   = event.target.files[0]['name'];
-var inputfile  = document.querySelector('.inputfile');
-output.src     = URL.createObjectURL(event.target.files[0]);
-output.classList.add('preview');
-namaUpload.innerHTML = namaFile;
-inputfile.classList.add('focus');
+  var output     = document.getElementById('preview');
+  var namaUpload = document.getElementById('namaUpload');
+  var namaFile   = event.target.files[0]['name'];
+  var inputfile  = document.querySelector('.inputfile');
 
-var inputFile = document.getElementById('file');
-var pathFile = inputFile.value;
-var ekstensiOk = /(\.jpg|\.png|\.jpeg)$/i;
-if(!ekstensiOk.exec(pathFile)){
-alert('Gambar Harus png , jpg , atau jpeg');
-  inputFile.value = '';
-  namaUpload.innerHTML = "Upload File";
-  inputfile.classList.remove('focus');
-  output.remove();
-  return false;
+  var inputFile = document.getElementById('file');
+  var pathFile = inputFile.value;
+  var ekstensiOk = /(\.jpg|\.png|\.jpeg)$/i;
+  if(!ekstensiOk.exec(pathFile)){
+    alert('Gambar Harus png , jpg , atau jpeg');
+    inputFile.value = '';
+    namaUpload.innerHTML = "Upload File";
+    inputfile.classList.remove('focus');
+    output.remove();
+    return false;
+  }else{
+    output.src = URL.createObjectURL(event.target.files[0]);
+    output.classList.add('preview');
+    namaUpload.innerHTML = namaFile;
+    inputfile.classList.add('focus');
   }
 }
 
