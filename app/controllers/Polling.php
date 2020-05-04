@@ -12,7 +12,7 @@ class Polling extends Controller{
       if(!empty($id)){
         if(!is_null($id)){
           foreach($id as $key){
-            $data = $this->model('PollingUser')->getPollById($key);
+            $data = $this->model('PollingModel')->getPollById($key);
             $this->view('user/polling', $data);
           }
         }
@@ -29,7 +29,7 @@ class Polling extends Controller{
     $user   = $this->model('UserMan')->getUserById($iduser);
 
     if($user['sudah'] < 1){
-      if($this->model('PollingUser')->pollInput($idpoll, $iduser) > 0){
+      if($this->model('PollingModel')->pollInput($idpoll, $iduser) > 0){
         Session_destroy();
         header('Location:'. BASEURL);
         exit();
