@@ -16,7 +16,7 @@ class Admin extends Controller{
     $username = Input::get('username');
     $password = Input::get('password');
     if(!empty($username)){
-      $data = $this->model('LoginAdmin')->login($username, $password);
+      $data = $this->model('AdminModel')->login($username, $password);
       if($data){
         Session::set('id', $data['id']);
         Session::set('AdminName', $data['user']);
@@ -56,7 +56,7 @@ class Admin extends Controller{
   public function polling($param1 = null, $param2 = null){
       if(Session::exists('AdminName')){
         $data['judul']   = 'Polling';
-        $data['polling'] = $this->model('PollingUser')->getPolling();
+        $data['polling'] = $this->model('PollingModel')->getPolling();
 
         /**
         *
@@ -91,7 +91,7 @@ class Admin extends Controller{
 
                 $data['new_name'] = $gambar->getNewName();
 
-                if($this->model('PollingControl')->tambah($data) > 0){
+                if($this->model('PollingModel')->tambah($data) > 0){
                   Msg::setMSG('Berhasil tambah kandidat', 'success');
                   Redirect::to(BASEURL.'/admin/polling');
 
@@ -107,7 +107,7 @@ class Admin extends Controller{
 
             }else{
 
-              if($this->model('PollingControl')->tambah($data) > 0){
+              if($this->model('PollingModel')->tambah($data) > 0){
                 Msg::setMSG('Berhasil tambah kandidat', 'success');
                 Redirect::to(BASEURL.'/admin/polling');
               }else{
@@ -130,7 +130,7 @@ class Admin extends Controller{
 
         }elseif($param1 == 'edit' && !is_null($param2)){
           $data['judul']    = 'Edit Kandidat';
-          $data['kandidat'] = $this->model('PollingUser')->getPollById($param2);
+          $data['kandidat'] = $this->model('PollingModel')->getPollById($param2);
 
           if(Input::exists('POST', 'nama')){
             $data['nama']      = htmlentities($_POST['nama']);
@@ -147,7 +147,7 @@ class Admin extends Controller{
                   unlink('public/img/'. $data['kandidat']['img']);
                 }
 
-                if($this->model('PollingControl')->edit($data, $param2) > 0){
+                if($this->model('PollingModel')->edit($data, $param2) > 0){
                   Msg::setMSG('Berhasil edit kandidat', 'success');
                   Redirect::to(BASEURL.'/admin/polling');
                 }else{
@@ -162,7 +162,7 @@ class Admin extends Controller{
 
             }else{
 
-              if($this->model('PollingControl')->edit($data, $param2) > 0){
+              if($this->model('PollingModel')->edit($data, $param2) > 0){
                 Msg::setMSG('Berhasil tambah kandidat', 'success');
                 Redirect::to(BASEURL.'/admin/polling');
               }else{
@@ -189,12 +189,12 @@ class Admin extends Controller{
 
         }elseif($param1 == 'hapus' && !is_null($param2)){
 
-          $img = $this->model('PollingUser')->getPollById($param2);
+          $img = $this->model('PollingModel')->getPollById($param2);
           if(is_file('public/img/'. $img['img'])){
             unlink('public/img/'. $img['img']);
           }
 
-          if($this->model('PollingControl')->hapus($param2) > 0){
+          if($this->model('PollingModel')->hapus($param2) > 0){
             Msg::setMSG('Berhasil hapus kandidat', 'success');
             Redirect::to(BASEURL.'/admin/polling');
           }else{
@@ -210,7 +210,7 @@ class Admin extends Controller{
 
         }elseif($param1 == 'massdelete'){
           $hapus = Input::get('hapusK');
-          if($this->massDelete($hapus, 'PollingControl') > 0){
+          if($this->massDelete($hapus, 'PollingModel') > 0){
             Msg::setMSG('Kandidat berhasil dihapus', 'success');
             Redirect::to(BASEURL.'/admin/polling');
           }else{
@@ -280,23 +280,25 @@ class Admin extends Controller{
                 $xls = $reader->load($file->getTmp());
                 $data['xls'] = $xls->getActiveSheet()->toArray();
                 $error = 0;
-                $jml   = count($data['xls']);
-                for($i = 1;$i < $jml ;$i++){
+                $jml   = count($data['xls']) - 1;
+                $num   = 1;
 
-                  if(empty($data['xls'][$i][0]) || empty($data['xls'][$i][1])){
-                    $error++;
+                foreach($data['xls'] as $key => $value){
+                  if($num > 1){
+                    $data['username'] = $value[0];
+                    $data['pass']     = $value[1];
+
+                    if(!empty($value[0]) && !empty($value[1])){
+                      if($this->model('UserMan')->tambah($data) < $jml){
+                        $error++;
+                      }
+                    }
                   }
-
-                  $data['username'] = $data['xls'][$i][0];
-                  $data['pass']     = $data['xls'][$i][1];
-
-                  if(!empty($data['xls'][$i][0]) && !empty($data['xls'][$i][1])){
-                    $this->model('UserMan')->tambah($data);
-                  }
+                  $num++;
                 }
 
                 if($error > 0){
-                  Msg::setMSG('Error : Ada field yang kosong', 'error');
+                  Msg::setMSG('Ada field yang kosong', 'error');
                   Redirect::to(BASEURL.'/admin/userman');
                 }else{
                     Msg::setMSG('User berhasil ditambahkan', 'success');
@@ -307,6 +309,7 @@ class Admin extends Controller{
                 Msg::setMSG('Hanya boleh .xls dan .xlsx', 'error');
                 Redirect::to(BASEURL.'/admin/userman/tambah');
               }
+
             }elseif(!empty($data['username'])){
 
               if($this->model('UserMan')->tambah($data) > 0 ){
@@ -429,9 +432,6 @@ class Admin extends Controller{
 
   public function preview(){
 
-    /**
-    * I GOT STUCK HERE
-    */
     if(Session::exists('AdminName')){
 
       if(Input::exists('FILES', 'file')){
@@ -447,14 +447,12 @@ class Admin extends Controller{
         $xls = $reader->load($file->getTmp());
         $data['preview'] = $xls->getActiveSheet()->toArray();
 
-        $data['E_ALL'] = 0;
-        $jml = count($data['preview']);
-        for($i = 1;$i < $jml;$i++){
-
-          if(empty($data['preview'][$i][0]) || empty($data['preview'][$i][1]))
-            $data['E_ALL']++;
-
-          $data['total'] = $i;
+        $data['ERR']   = 0;
+        $data['total'] = count($data['preview']) - 1;
+        foreach($data['preview'] as $key => $value){
+          if(empty($value[0]) || empty($value[1])){
+            $data['ERR']++;
+          }
         }
 
         $this->view('admin/userman/preview', $data);
@@ -472,6 +470,7 @@ class Admin extends Controller{
           $berhasil = 0;
           $jml      = count($hapus);
           for($i=0;$i< $jml;$i++){
+
             if($this->model($model)->hapus($hapus[$i]) > 0)
               $berhasil++;
           }
