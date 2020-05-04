@@ -15,7 +15,7 @@ class User extends Controller{
     $user = Input::get('user');
     $pass = Input::get('pass');
     if(!empty($user) && !empty($pass)){
-      $data = $this->model('loginUser')->login($user, $pass);
+      $data = $this->model('UserModel')->login($user, $pass);
       if($data){
         Session::set('username', $data['username']);
         Session::set('id', $data['id']);
@@ -32,7 +32,7 @@ class User extends Controller{
   public function home(){
     if(Session::exists('username')){
       $data['judul'] = 'Polling';
-      $data['poll'] = $this->model('PollingUser')->getPolling();
+      $data['poll'] = $this->model('PollingModel')->getPolling();
       $data['username'] = Session::get('username');
       $this->view('templates/header', $data);
       $this->view('user/index', $data);
