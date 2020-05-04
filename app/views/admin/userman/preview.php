@@ -1,8 +1,8 @@
 <?php if(!empty($data['preview'])){?>
 <div  class="content">
     <?php
-    if($data['E_ALL'] > 0){
-      echo "<div id='adaError'>Error: Ada data yang kosong</div>";
+    if($data['ERR'] > 0){
+      echo "<div id='adaError'>Error: Ada data yang kosong.<br>Data yang kosong akan dilewati</div>";
     }
     ?>
     <h2 class="preview-title">Preview</h2>
