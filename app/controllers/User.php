@@ -4,7 +4,8 @@ class User extends Controller{
 
   public function index(){
     if(empty(Session::get('username'))){
-      $this->view('login/index');
+      $data['action_login'] = BASEURL . '/user/login';
+      $this->view('login/index', $data);
     }else{
       Redirect::to(BASEURL.'/user/home');
     }
