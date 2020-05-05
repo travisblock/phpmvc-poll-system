@@ -3,7 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?= $data['judul']; ?></title>
+    <title><?= $data['judul_web'] . ' - ' . $data['judul_voting']; ?></title>
+    <meta name="description" content="<?= $data['deskripsi']; ?>">
     <link rel="stylesheet" href="<?= BASEURL; ?>/public/css/style.css">
   </head>
   <body>
@@ -15,7 +16,7 @@
           </div>
         </div>
         <div class="logo">
-          Stark
+          <?= $data['judul_web']; ?>
         </div>
         <div class="menu">
           <ul>
@@ -29,9 +30,7 @@
             ?>
             <li><a href="/">Home</a></li>
             <li><a href="<?= BASEURL; ?>/user">Login</a></li>
-            <li><a href="#">Product</a></li>
-            <li><a href="#">Blog</a></li>
-            <li><a href="#">Contact</a></li>
+            <li><a href="#">About</a></li>
             <?php
             }
             ?>
