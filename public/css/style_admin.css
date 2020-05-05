@@ -12,7 +12,7 @@
 
 body {
   background: #edf1f5;
-  color:#516673;
+  color:#242B36;
   font-weight: 300;
 }
 .wrapper{
@@ -21,7 +21,7 @@ body {
 svg{
   width: 20px;
   height: 20px;
-  fill: #516673;
+  fill: #242B36;
 }
 
 
@@ -36,7 +36,7 @@ svg{
 .wrapper .top_navbar .list-menu{
   width: 70px;
   height: 100%;
-  background: #516673;
+  background: #242B36;
   padding: 15px 17px;
   border-top-left-radius: 10px;
   cursor: pointer;
@@ -63,7 +63,7 @@ svg{
 }
 
 .wrapper .top_navbar .top_menu .logo{
-  color:#516673;
+  color:#242B36;
   font-size: 20px;
   font-weight: 700;
   letter-spacing: 2px;
@@ -74,7 +74,7 @@ svg{
   position: fixed;
   top: 65px;
   left:5px;
-  background: #516673;
+  background: #242B36;
   width: 200px;
   height: calc(100% - 70px);
   border-bottom-left-radius: 10px;
@@ -115,14 +115,14 @@ svg{
 
 .wrapper .sidebar ul li a:hover,
 .wrapper .sidebar ul li a.active{
-  background: #4c5d68;
+  background: #2E3642;
   color: #fff;
 }
 
 .content-title{
   text-align: center;
   padding:20px !important;
-  color: #516673
+  color: #242B36
 }
 
 .wrapper .container{
@@ -190,7 +190,7 @@ svg{
 }
 
 .wrapper .container-footer .footer-isi a{
-  color: #516673;
+  color: #242B36;
   font-weight: bold;
 }
 
@@ -217,11 +217,11 @@ svg{
 }
 
 .tabel thead tr{
-  background-color: #516673;
+  background-color: #242B36;
   color:#fff;
   text-align: left;
   font-weight: 700;
-  border: 2px solid #516673;
+  border: 2px solid #242B36;
 }
 
 .tabel th,
@@ -265,17 +265,17 @@ svg{
 }
 
 .tbl-edit{
-  background-color: #85b4d0;
+  background-color: #659bbb;
   color:#fff
 }
 
 .tbl-hapus{
-  background-color: #F18C8E;
+  background-color: #d94447;
   color:#fff
 }
 
 .tbl-add{
-  background-color: #516673;
+  background-color: #242B36;
   color: #fff;
 }
 
@@ -493,4 +493,156 @@ svg{
   height: 0px;
   padding: 0px;
   opacity: 0
+}
+
+
+/* LOGIN */
+
+
+.container-luar{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding: 10px;
+}
+
+.form-container h1 {
+	margin: 15px 0;
+}
+
+p.p{
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 5px;
+  margin: 20px 0 30px
+}
+
+.form-container span {
+	margin-bottom:30px;
+}
+
+a.forgot {
+	margin-top: 30px;
+}
+
+a.forgot{
+  color: #333;
+  font-size: 12px;
+  text-decoration: none;
+  margin: 15px 0;
+}
+
+
+.container-login{
+  background: #fff;
+  border-radius: 5px;
+  position: relative;
+  overflow: hidden;
+  width: 768px;
+  max-width: 100%;
+  height: 480px;
+}
+
+.form-container form{
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 50px;
+  height: 100%;
+  text-align: center;
+}
+
+.form-container input{
+  background: #eee;
+  border: none;
+  padding: 12px 15px;
+  margin: 8px 0;
+  width: 100%;
+}
+
+button.tombol{
+  border-radius: 20px;
+  border: 1px solid #242b36;
+  background: #242b36;
+  color: #fff;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 12px 45px;
+  transition: all 0.3s ease-in;
+  cursor: pointer;
+
+}
+
+button.tombol:hover{
+  transform:scale(0.95)
+}
+
+button.tombol:focus{
+  outline: none;
+}
+
+button.ghost{
+  background: transparent;
+  border-color: #fff;
+}
+
+.form-container{
+  position: absolute;
+  top: 0;
+  height: 100%;
+  transition: all 0.6s ease-in-out;
+}
+
+.signin-container{
+  left: 0;
+  width: 50%;
+  z-index: 1;
+}
+
+.overlay-container{
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.overlay{
+  background: #516673;
+  background: linear-gradient(to right, #3a3659, #242b36) no-repeat 0 0 / cover;
+  position: relative;
+  left: -100%;
+  height: 100%;
+  width: 200%;
+
+}
+
+.overlay-panel{
+  color: #fff;
+  position: absolute;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 40px;
+  width: 50%;
+  height: 100%;
+  text-align: center;
+  right: 0;
+}
+
+@media screen and (max-width: 824px) {
+  .overlay-container{
+    display: none;
+  }
+  .container-login{
+    width: 340px;
+  }
+
 }
