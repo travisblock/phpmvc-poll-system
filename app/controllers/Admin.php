@@ -4,8 +4,8 @@ class Admin extends Controller{
 
   public function index(){
     if(empty(Session::get('AdminName'))){
-      $data['judul'] = 'Login bro';
-      $this->view('admin/index', $data);
+      $data['action_login'] = BASEURL . '/admin/loginad';
+      $this->view('login/index', $data);
     }else{
       Redirect::to(BASEURL.'/admin/dashboard');
     }
@@ -401,18 +401,19 @@ class Admin extends Controller{
   public function setting($param1 = null){
       if(Session::exists('AdminName')){
         $data['judul'] = 'Setting Manager';
-        $data['tampilan'] = $this->model('Settings')->getTamplan();
+        $data['tampilan'] = $this->model('Settings')->getTampilan();
 
         if($param1 == 'tampilan'){
           if(isset($_POST)){
-            $data['title']  = htmlentities(Input::get('title'));
-            $data['desc']   = htmlentities(Input::get('desc'));
+            $data['judul_web']    = htmlentities(Input::get('title'));
+            $data['judul_voting'] = htmlentities(Input::get('voting'));
+            $data['desc']         = htmlentities(Input::get('desc'));
 
             if($this->model('Settings')->tampilan($data)){
               Msg::setMSG('Settings berhasil disimpan', 'success');
-
+              Redirect::to(BASEURL.'/admin/setting');
             }else{
-              Msg::setMSG('Settings gagal disimpan', 'error');
+              Msg::setMSG('Tidak ada perubahan pada data', 'warning');
               Redirect::to(BASEURL.'/admin/setting');
             }
 
