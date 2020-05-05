@@ -3,37 +3,31 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login / Register</title>
-    <link rel="stylesheet" href="<?= BASEURL; ?>/public/css/style-login.css">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="<?= BASEURL; ?>/public/css/style_admin.css">
   </head>
   <body>
-    <div class="content">
-      <div class="heading">
-        <div class="signin border" id="signin">Signin</div>
-        <div class="login" id="login">Login</div>
+    <div class="container-luar">
+      <div class="container-login" id="container">
+        <div class="form-container sigin-container">
+          <form method="post" action="<?= $data['action_login']; ?>">
+            <h1>Login Account</h1>
+            <span>Use username or password</span>
+            <input type="text" name="username" placeholder="username">
+            <input type="password" name="password" placeholder="password">
+            <a class="forgot" href="#">Forgot your password</a>
+            <button class="tombol" type="submit">Login</button>
+          </form>
+        </div>
+        <div class="overlay-container">
+          <div class="overlay">
+            <div class="overlay-panel">
+              <h1>Hello Friend</h1>
+              <p class="p">Enter your Username and Password to Login</p>
+            </div>
+          </div>
+        </div>
       </div>
-        <div class="signinform" id="signinform">
-          <form method="post" action="<?= BASEURL; ?>/user/register">
-            <input type="text" class="input" placeholder="Username" name="user">
-            <input type="email" class="input" placeholder="email" name="email">
-            <input type="password" class="input" placeholder="password" name="pass">
-            <input type="submit" class="submit" value="SignIn">
-          </form>
-        </div>
-
-        <div class="loginform hide" id="loginform" >
-          <form method="post" action="<?= BASEURL;?>/user/login">
-            <input type="text" name='user' class="input" placeholder="username">
-            <input type="password" name='pass' class="input" placeholder="password">
-            <span class="lupa"><a href="#">Forgot Password</a></span>
-            <input type="submit" class="submit" value="Login">
-          </form>
-        </div>
     </div>
-
-  <script type="text/javascript" src="<?= BASEURL; ?>/public/js/script-login.js">
-
-
-  </script>
-</body>
+  </body>
 </html>
