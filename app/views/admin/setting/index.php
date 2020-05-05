@@ -7,7 +7,12 @@
       <form class="form-group" method="POST" action="<?= BASEURL; ?>/admin/setting/tampilan" enctype="multipart/form-data">
         <div class="input-group">
           <span>Judul Web</span>
-          <input type="text" name="title" placeholder="Judul Web" value="<?= $data['tampilan']['judul']; ?>">
+          <input type="text" name="title" placeholder="Judul Web" value="<?= $data['tampilan']['judul_web']; ?>">
+        </div>
+
+        <div class="input-group">
+          <span>Judul Voting</span>
+          <input type="text" name="voting" placeholder="Judul Voting" value="<?= $data['tampilan']['judul_voting']; ?>">
         </div>
 
         <div class="input-group">
