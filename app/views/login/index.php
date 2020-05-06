@@ -11,6 +11,9 @@
       <div class="container-login" id="container">
         <div class="form-container sigin-container">
           <form method="post" action="<?= $data['action_login']; ?>">
+            <div class="err-place">
+              <?= Msg::show(); ?>
+            </div>
             <h1>Login Account</h1>
             <span>Use username or password</span>
             <input type="text" name="username" placeholder="username">
@@ -29,5 +32,18 @@
         </div>
       </div>
     </div>
+    <script>
+        window.setTimeout(function(){
+          var msg = document.getElementById('msg');
+          if(msg !== null)
+            msg.classList.toggle('hide');
+        }, 3000);
+
+        window.setTimeout(function(){
+          var msg = document.getElementById('msg');
+          if(msg !== null)
+            msg.remove();
+        }, 4000);
+    </script>
   </body>
 </html>
