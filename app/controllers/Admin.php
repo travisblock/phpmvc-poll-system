@@ -24,6 +24,7 @@ class Admin extends Controller{
 
         Redirect::to(BASEURL.'/admin/dashboard');
       }else{
+        Msg::setMSG('User / passwd salah', 'error');
         Redirect::to(BASEURL.'/admin');
       }
 
@@ -80,8 +81,8 @@ class Admin extends Controller{
 
           if(Input::exists('POST', 'nama')){
 
-            $data['nama']   = htmlentities(Input::get('nama'));
-            $data['detail'] = htmlentities(Input::get('detail'));
+            $data['nama']   = htmlentities(Input::get('nama'), ENT_QUOTES);
+            $data['detail'] = htmlentities(Input::get('detail'), ENT_QUOTES);
 
             if(Input::exists('FILES', 'img')){
 
@@ -133,8 +134,8 @@ class Admin extends Controller{
           $data['kandidat'] = $this->model('PollingModel')->getPollById($param2);
 
           if(Input::exists('POST', 'nama')){
-            $data['nama']      = htmlentities($_POST['nama']);
-            $data['detail']    = htmlentities($_POST['detail']);
+            $data['nama']      = htmlentities(Input::get('nama'), ENT_QUOTES);
+            $data['detail']    = htmlentities(Input::get('detail'), ENT_QUOTES);
 
             if(Input::exists('FILES', 'img')){
 
@@ -262,7 +263,7 @@ class Admin extends Controller{
           $data['judul'] = 'Tambah User';
 
           if(Input::exists('POST')){
-            $data['username'] = htmlentities(Input::get('username'));
+            $data['username'] = htmlentities(Input::get('username'), ENT_QUOTES);
             $data['pass']     = password_hash(Input::get('pass'), PASSWORD_DEFAULT);
 
             if(Input::exists('FILES', 'file')){
@@ -280,16 +281,15 @@ class Admin extends Controller{
                 $xls = $reader->load($file->getTmp());
                 $data['xls'] = $xls->getActiveSheet()->toArray();
                 $error = 0;
-                $jml   = count($data['xls']) - 1;
                 $num   = 1;
 
                 foreach($data['xls'] as $key => $value){
                   if($num > 1){
-                    $data['username'] = $value[0];
-                    $data['pass']     = $value[1];
+                    $data['username'] = htmlentities($value[0], ENT_QUOTES);
+                    $data['pass']     = password_hash($value[1], PASSWORD_DEFAULT);
 
                     if(!empty($value[0]) && !empty($value[1])){
-                      if($this->model('UserMan')->tambah($data) < $jml){
+                      if($this->model('UserMan')->tambah($data) < 1){
                         $error++;
                       }
                     }
@@ -298,10 +298,10 @@ class Admin extends Controller{
                 }
 
                 if($error > 0){
-                  Msg::setMSG('Ada field yang kosong', 'error');
+                  Msg::setMSG('Tidak bisa import data', 'error');
                   Redirect::to(BASEURL.'/admin/userman');
                 }else{
-                    Msg::setMSG('User berhasil ditambahkan', 'success');
+                    Msg::setMSG('User berhasil di import', 'success');
                     Redirect::to(BASEURL.'/admin/userman');
                 }
 
@@ -403,22 +403,74 @@ class Admin extends Controller{
         $data['judul'] = 'Setting Manager';
         $data['tampilan'] = $this->model('Settings')->getTampilan();
 
+        /**
+        *
+        * Setting tampilan ( Judul , Deskripsi, Logo);
+        *
+        */
         if($param1 == 'tampilan'){
           if(isset($_POST)){
-            $data['judul_web']    = htmlentities(Input::get('title'));
-            $data['judul_voting'] = htmlentities(Input::get('voting'));
-            $data['desc']         = htmlentities(Input::get('desc'));
+            $data['judul_web']    = htmlentities(Input::get('title'), ENT_QUOTES);
+            $data['judul_voting'] = htmlentities(Input::get('voting'), ENT_QUOTES);
+            $data['desc']         = htmlentities(Input::get('desc'), ENT_QUOTES);
 
-            if($this->model('Settings')->tampilan($data)){
-              Msg::setMSG('Settings berhasil disimpan', 'success');
-              Redirect::to(BASEURL.'/admin/setting');
+            if(Input::exists('FILES', 'img')){
+              $gambar = new Upload($_FILES['img'], 'public/img/');
+
+              if($gambar->uploaded('images')){
+                $data['new_name'] = $gambar->getNewName();
+
+                if(is_file('public/img/'. $data['tampilan']['logo'])){
+                  unlink('public/img/'. $data['tampilan']['logo']);
+                }
+
+                if($this->model('Settings')->tampilan($data)){
+                  Msg::setMSG('Settings berhasil disimpan', 'success');
+                  Redirect::to(BASEURL.'/admin/setting');
+                }
+
+              }else {
+                Msg::setMSG('Tidak bisa upload gambar', 'error');
+                Redirect::to(BASEURL.'/admin/setting');
+              }
             }else{
-              Msg::setMSG('Tidak ada perubahan pada data', 'warning');
-              Redirect::to(BASEURL.'/admin/setting');
+              if($this->model('Settings')->tampilan($data)){
+                Msg::setMSG('Settings berhasil disimpan', 'success');
+                Redirect::to(BASEURL.'/admin/setting');
+              }else{
+                Msg::setMSG('Tidak ada perubahan pada data', 'warning');
+                Redirect::to(BASEURL.'/admin/setting');
+              }
             }
 
           }
 
+        /**
+        *
+        * Setting tampilan ( Judul , Deskripsi, Logo);
+        *
+        */
+
+        }elseif ($param1 == 'admin') {
+          $data['id']      = Session::get('id');
+          if(Input::exists('POST', 'user')){
+            $data['user']  = htmlentities(Input::get('user'), ENT_QUOTES);
+            $data['pass']  = password_hash(Input::get('pass'), PASSWORD_DEFAULT);
+            $data['email'] = htmlentities(Input::get('email'), ENT_QUOTES);
+
+            if($this->model('AdminModel')->ubahData($data)){
+              Msg::setMSG('Settings berhasil disimpan', 'success');
+              Redirect::to(BASEURL.'/admin/setting/admin');
+            }else{
+              Msg::setMSG('Tidak ada data yang diubah', 'warning');
+              Redirect::to(BASEURL.'/admin/setting/admin');
+            }
+          }
+          $data['admin'] = $this->model('AdminModel')->getDataById($data['id']);
+
+          $this->view('admin/header', $data);
+          $this->view('admin/setting/admin', $data);
+          $this->view('admin/footer');
         }else {
           $this->view('admin/header', $data);
           $this->view('admin/setting/index', $data);
