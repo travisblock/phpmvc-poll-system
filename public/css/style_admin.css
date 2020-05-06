@@ -469,7 +469,8 @@ svg{
   box-shadow: 0px 9px 9px 0px rgba(0, 0, 0, 0.29);
 }
 
-.wrapper #msg .error{
+.wrapper #msg .error,
+.err-place #msg .error{
   background-color: #d94447;
   padding: 13px 34px;
   color: #fff;
