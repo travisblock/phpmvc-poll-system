@@ -13,15 +13,19 @@ class User extends Controller{
   }
 
   public function login(){
-    $user = Input::get('user');
-    $pass = Input::get('pass');
+    $user = Input::get('username');
+    $pass = Input::get('password');
     if(!empty($user) && !empty($pass)){
       $data = $this->model('UserModel')->login($user, $pass);
-      if($data){
+      if($data === true){
         Session::set('username', $data['username']);
         Session::set('id', $data['id']);
         Redirect::to(BASEURL.'/user/home');
+      }elseif($data === 'sudah'){
+        Msg::setMSG('User sudah memilih', 'error');
+        Redirect::to(BASEURL.'/user');
       }else{
+        Msg::setMSG('User / passwd salah', 'error');
         Redirect::to(BASEURL.'/user');
       }
     }else{
@@ -32,8 +36,8 @@ class User extends Controller{
 
   public function home(){
     if(Session::exists('username')){
-      $data['judul'] = 'Polling';
       $data['poll'] = $this->model('PollingModel')->getPolling();
+      $data['view'] = $this->model('Settings')->getTampilan();
       $data['username'] = Session::get('username');
       $this->view('templates/header', $data);
       $this->view('user/index', $data);
