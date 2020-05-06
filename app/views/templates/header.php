@@ -3,9 +3,11 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?= $data['judul_web'] . ' - ' . $data['judul_voting']; ?></title>
-    <meta name="description" content="<?= $data['deskripsi']; ?>">
+    <title><?= $data['view']['judul_web'] . ' - ' . $data['view']['judul_voting']; ?></title>
+    <meta name="description" content="<?= $data['view']['deskripsi']; ?>">
     <link rel="stylesheet" href="<?= BASEURL; ?>/public/css/style.css">
+    <link rel="icon" type="image/png" href="<?= BASEURL . '/public/img/' . $data['view']['logo']; ?>" sizes="32x32">
+    <link rel="icon" type="image/png" href="<?= BASEURL . '/public/img/' . $data['view']['logo']; ?>" sizes="16x16">
   </head>
   <body>
     <header>
@@ -16,7 +18,7 @@
           </div>
         </div>
         <div class="logo">
-          <?= $data['judul_web']; ?>
+          <?= $data['view']['judul_web']; ?>
         </div>
         <div class="menu">
           <ul>
