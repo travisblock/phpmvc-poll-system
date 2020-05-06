@@ -8,7 +8,8 @@ class Upload{
           $tmp,
           $ext,
           $newName,
-          $allowed;
+          $allowed,
+          $disallow = array(' ', '(', ')', '[', ']', '/', '\'', '<', '>','^','.','{', '}', ';', ',', '@', '~', '#', '!', '$', '+', '?', '%', '&', '*', '"', '`', '=', '|', '&');
 
   public function __construct(array $files = [], string $path = null){
     $this->name = $files['name'];
@@ -30,6 +31,7 @@ class Upload{
     $this->newName = explode(".", $this->name);
     $this->ext     = strtolower(end($this->newName));
     $this->newName = $this->newName[0];
+    $this->newName = str_replace($this->disallow, array(""), $this->newName);
     $this->newName = round(microtime(true)) . '_' . $this->newName . '.' . $this->ext;
     return $this->newName;
   }
