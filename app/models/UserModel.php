@@ -25,7 +25,7 @@ class UserModel{
       if(!empty($data)){
         if(password_verify($pass, $data['pass'])){
 
-          return ($data['sudah'] < 1) ? $data : false;
+          return ($data['sudah'] < 1) ? $data : "sudah";
 
         }else{
           return false;
