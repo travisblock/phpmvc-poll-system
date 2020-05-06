@@ -1,5 +1,5 @@
 <div class="row-center">
-  <h1 class="border-bottom"><?= $data['judul_voting']; ?></h1>
+  <h1 class="border-bottom"><?= $data['view']['judul_voting']; ?></h1>
 </div>
 
 
