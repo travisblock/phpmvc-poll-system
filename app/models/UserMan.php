@@ -23,7 +23,7 @@ class UserMan{
     return $this->db->rowCount();
   }
 
-  public function tambah($data = null){
+  public function tambah($data){
     if(!empty($data)){
       if(!$this->userExists($data['username'])){
         $query = "INSERT INTO user(username,pass,sudah) VALUES(:username, :pass, 0)";
@@ -37,7 +37,7 @@ class UserMan{
     }
   }
 
-  public function getUserById($id = null){
+  public function getUserById($id){
     if(!empty($id)){
 
       $query = "SELECT * FROM user WHERE id=:id";
