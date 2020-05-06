@@ -1,8 +1,8 @@
 <div class="row-center">
-  <h1>Voting</h1>
+  <h1><?= $data['view']['judul_web']; ?></h1>
 </div>
 <div class="heading-2">
-  <h2 class="border-bottom">Pilih pemain terbaik</h2>
+  <h2 class="border-bottom"><?= $data['view']['judul_voting']; ?></h2>
 </div>
 <div class="row-box" id="pollData">
   <?php
