@@ -8,7 +8,7 @@ class PollingModel{
     $this->db = Database::getDB();
   }
 
-  public function tambah($data = null){
+  public function tambah($data){
 
     date_default_timezone_set('Asia/Jakarta');
     $date = date("Y-m-d H:i:s");
@@ -37,7 +37,7 @@ class PollingModel{
     return $this->db->rowCount();
   }
 
-  public function edit($data = null, $id = null){
+  public function edit($data, $id = null){
     $img = $data['new_name'];
     if(!empty($img)){
       $query = "UPDATE polling set name=:nama, detail=:detail, img='$img' WHERE id=:id";
@@ -68,7 +68,7 @@ class PollingModel{
     return $this->db->result();
   }
 
-  public function pollInput($idpoll = null, $iduser = null){
+  public function pollInput($idpoll, $iduser = null){
     if(!empty($idpoll) && !empty($iduser)){
       date_default_timezone_set('Asia/Jakarta');
       $date = date("Y-m-d H:i:s");
