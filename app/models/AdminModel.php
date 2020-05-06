@@ -27,4 +27,35 @@ class AdminModel{
       return (password_verify($input, $password)) ? true : false;
     }
   }
+
+  public function ubahData($data){
+      $query = "UPDATE login SET user=:user, pass=:pass, email=:email WHERE id=:id";
+      $this->db->query($query);
+      $this->db->bind('id', $data['id']);
+      $this->db->bind('user', $data['user']);
+      $this->db->bind('pass', $data['pass']);
+      $this->db->bind('email', $data['email']);
+      $this->db->execute();
+      return ($this->db->rowCount() > 0) ? true : false;
+  }
+
+  public function tambahAdmin(){
+    if(!empty($data['user'])){
+      $query = "INSERT INTO login(user,pass,email) VALUES(:user,:pass,:email)";
+      $this->db->query($query);
+      $this->db->bind('user', $data['user']);
+      $this->db->bind('pass', $data['pass']);
+      $this->db->bind('email', $data['email']);
+      $this->db->execute();
+
+      return ($this->db->rowCount() > 0) ? true : false;
+    }
+  }
+
+  public function getDataById($id){
+    $query = "SELECT * FROM login WHERE id=:id";
+    $this->db->query($query);
+    $this->db->bind('id', $id);
+    return $this->db->result();
+  }
 }
