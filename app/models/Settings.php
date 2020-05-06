@@ -9,7 +9,11 @@ class Settings{
   }
 
   public function tampilan($data){
-    $query = "UPDATE pengaturan SET judul_web=:judul_web, judul_voting=:judul_voting, deskripsi=:deskripsi";
+    if(!empty($data['new_name'])){
+      $query = "UPDATE pengaturan SET judul_web=:judul_web, judul_voting=:judul_voting, logo='$data[new_name]', deskripsi=:deskripsi";
+    }else{
+      $query = "UPDATE pengaturan SET judul_web=:judul_web, judul_voting=:judul_voting, deskripsi=:deskripsi";
+    }
     $this->db->query($query);
     $this->db->bind('judul_web', $data['judul_web']);
     $this->db->bind('judul_voting', $data['judul_voting']);
