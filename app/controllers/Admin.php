@@ -338,8 +338,8 @@ class Admin extends Controller{
           $data['user']  = $this->model('UserMan')->getUserById($param2);
 
           if(!empty($_POST)){
-            $data['username'] = htmlentities($_POST['username']);
-            $data['pass']     = $_POST['pass'];
+            $data['username'] = htmlentities(Input::get('username'));
+            $data['pass']     = password_hash(Input::get('pass'), PASSWORD_DEFAULT);
 
             if($this->model('UserMan')->edit($data, $param2) > 0){
               Msg::setMSG('User berhasil diubah', 'success');
@@ -447,7 +447,7 @@ class Admin extends Controller{
 
         /**
         *
-        * Setting tampilan ( Judul , Deskripsi, Logo);
+        * Setting Admin
         *
         */
 
