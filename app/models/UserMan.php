@@ -52,14 +52,10 @@ class UserMan{
 
   public function edit($data, $id){
 
-    $pass = password_hash($data['pass'], PASSWORD_DEFAULT);
-
-    if(!empty($data['username']) && !empty($data['pass'])){
-      $query = "UPDATE user SET username=:username, pass='$pass' WHERE id=:id";
-    }elseif(!empty($data['username']) && empty($data['pass'])){
-      $query = "UPDATE user SET username=:username WHERE id=:id";
+    if(!empty($data['pass'])){
+      $query = "UPDATE user SET username=:username, pass='$data[pass]' WHERE id=:id";
     }else{
-      $query = null;
+      $query = "UPDATE user SET username=:username WHERE id=:id";
     }
 
     $this->db->query($query);
