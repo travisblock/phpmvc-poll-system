@@ -17,7 +17,7 @@ class User extends Controller{
     $pass = Input::get('password');
     if(!empty($user) && !empty($pass)){
       $data = $this->model('UserModel')->login($user, $pass);
-      if($data === true){
+      if(is_array($data)){
         Session::set('username', $data['username']);
         Session::set('id', $data['id']);
         Redirect::to(BASEURL.'/user/home');
