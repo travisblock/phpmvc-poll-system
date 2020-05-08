@@ -1,5 +1,11 @@
 <?php
 
+/**
+* @author Yusuf Al Majid <ajidalmajid6@gmail.com>
+* @license MIT
+* @version 0.0.1
+*/
+
 class UserModel{
 
   private $db;
@@ -33,7 +39,5 @@ class UserModel{
       }
     }
   }
-
-
 
 }
