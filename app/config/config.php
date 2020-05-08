@@ -8,7 +8,7 @@ define('DB_NAME', 'polling');
 
 // Untuk reset Passwd
 
-define('SMTP_HOST', 'smtp.gmail.com');
-define('SMTP_USER', 'ajidgans69@gmail.com');
-define('SMTP_PASS', '#orapasswot$');
-define('SMTP_PORT', '587');
+define('SMTP_HOST', ''); //smtp host. eg: smtp.gmail.com
+define('SMTP_USER', ''); //smtp user. eg: user@gmail.com
+define('SMTP_PASS', ''); //smtp password. eg: inipassword123
+define('SMTP_PORT', ''); //smtp port. eg: 587
