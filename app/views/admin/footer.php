@@ -7,35 +7,52 @@
 </div>
 
 <script type="text/javascript">
+var baseurl = "<?= BASEURL; ?>";
 
-function collapseMenu(collapse){
-  if(collapse.matches){
+document.addEventListener("DOMContentLoaded", function(){
+
+  function collapseMenu(collapse){
+    if(collapse.matches){
+      wrapper.classList.toggle('collapse');
+    }else {
+      wrapper.classList.remove('collapse');
+    }
+  }
+
+  var menu = document.querySelector(".list-menu");
+  var wrapper = document.querySelector('.wrapper');
+  menu.onclick = function(){
     wrapper.classList.toggle('collapse');
-  }else {
-    wrapper.classList.remove('collapse');
-  }
-}
+  };
 
-var menu = document.querySelector(".list-menu");
-var wrapper = document.querySelector('.wrapper');
-menu.onclick = function(){
-  wrapper.classList.toggle('collapse');
-};
+  var collapse = window.matchMedia("(max-width: 780px)")
+  collapseMenu(collapse)
+  collapse.addListener(collapseMenu)
 
-var collapse = window.matchMedia("(max-width: 780px)")
-collapseMenu(collapse)
-collapse.addListener(collapseMenu)
+  var paths = window.location.href;
+  var path  = paths.split("/", 5);
 
-var paths = window.location.href;
-var path  = paths.split("/", 5);
+  Array.from(document.querySelectorAll(".sidebar a")).forEach(function(itm){
+    var items = itm.getAttribute('href');
+    var item = items.split("/", 5);
 
-Array.from(document.querySelectorAll(".sidebar a")).forEach(function(itm){
-  var items = itm.getAttribute('href');
-  var item = items.split("/", 5);
+    if(item[4] == path[4]){
+      itm.classList.add('active');
+    }
 
-  if(item[4] == path[4]){
-    itm.classList.add('active');
-  }
+  });
+
+  window.setTimeout(function(){
+    var msg = document.getElementById('msg');
+    if(msg !== null)
+      msg.classList.toggle('hide');
+  }, 3000);
+
+  window.setTimeout(function(){
+    var msg = document.getElementById('msg');
+    if(msg !== null)
+      msg.remove();
+  }, 4000);
 
 });
 
@@ -89,7 +106,7 @@ function uploadXls(){
 
     var data = new FormData();
     data.append('file', file);
-    var url = 'http://192.168.1.13:8081/admin/preview';
+    var url = baseurl + '/admin/preview';
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url,true);
     xhr.onreadystatechange = function(){
@@ -100,22 +117,6 @@ function uploadXls(){
     xhr.send(data);
   }
 }
-
-window.setTimeout(function(){
-  var msg = document.getElementById('msg');
-  if(msg !== null)
-    msg.classList.toggle('hide');
-}, 3000);
-
-window.setTimeout(function(){
-  var msg = document.getElementById('msg');
-  if(msg !== null)
-    msg.remove();
-}, 4000);
-
-
-
-
 
 function checkAll(){
   var btnCheckHapus = document.querySelector("#btnCheckHapus");
