@@ -1,4 +1,10 @@
 
+/**
+* @author Yusuf Al Majid <ajidalmajid6@gmail.com>
+* @license MIT
+* @version 0.0.1
+*/
+
 document.addEventListener("DOMContentLoaded", function(){
 
   var detail = document.getElementsByClassName("detailBtn");
@@ -7,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function(){
     detail[i].onclick = function(){
 
       var id  = this.getAttribute('data-id');
-      var url = 'http://192.168.1.13:8081/polling/getPollingById';
+      var url = baseurl + '/polling/getPollingById';
       var xhr = new XMLHttpRequest();
 
       xhr.open("POST", url, true);
@@ -21,6 +27,13 @@ document.addEventListener("DOMContentLoaded", function(){
       xhr.send(JSON.stringify(data));
 
     };
+  };
+
+  var menu = document.querySelector(".menu-icon");
+
+  menu.onclick = function(){
+    var nav = document.querySelector('nav ul');
+    nav.classList.toggle('showing');
   };
 
 });
