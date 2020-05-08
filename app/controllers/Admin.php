@@ -537,6 +537,71 @@ class Admin extends Controller{
     }
   }
 
+  public function forgotPass(){
+
+    if(Input::exists('POST')){
+      $data['user']   = Input::get('user');
+      $data['email']  = Input::get('email');
+
+      $forgot = $this->model('AdminModel')->validEmailUser($data);
+      if($forgot){
+        $id   = $forgot['id'];
+        $code = md5(uniqid(true));
+        $url  = BASEURL;
+        $this->model('AdminModel')->setCodeReset($code, $id);
+
+        require 'library/vendor/PHPMailer/PHPMailerAutoload.php';
+        $mail = new PHPMailer;
+        $mail->isSMTP();
+        $mail->Host = SMTP_HOST;
+        $mail->SMTPAuth = true;
+        $mail->Username = SMTP_USER;
+        $mail->Password = SMTP_PASS;
+        $mail->SMTPSecure = 'tls';
+        $mail->Port = SMTP_PORT;
+        $mail->setFrom("admin@phppollsystem.com", "PHP Poll System");
+        $mail->addReplyTo("admin@phppollsystem.com", "PHP Poll System");
+        $mail->addAddress("$data[email]");
+        $mail->Subject = 'Forgot Password - PHP Poll System';
+        $mail->isHTML(true);
+        $mailContent = " Klik ini untuk reset password : <a href='$url/admin/resetPass/$code' target='_blank'>$url/admin/resetPass/$code</a>";
+        $mail->Body = $mailContent;
+        if($mail->send()){
+          Msg::setMSG('Email berhasil dikirim', 'success');
+        }else{
+          Msg::setMSG('Email gagal terkirim'.$mail->ErrorInfo, 'error');
+        }
+      }else {
+        Msg::setMSG('User / Email Salah', 'error');
+      }
+    }
+
+    $this->view('login/forgot');
+
+  }
+
+  public function resetPass($code){
+    if(!empty($code)){
+      $data['ses_code'] = Session::set('code', $code);
+      if(Input::exists('POST')){
+        $data['code'] = $code;
+        $data['new_pass'] = password_hash(Input::get('pass'), PASSWORD_DEFAULT);
+
+        if($this->model('AdminModel')->resetPassword($data)){
+          session_destroy();
+          Msg::setMSG('Sukses reset password', 'success');
+          Redirect::to(BASEURL.'/admin');
+        }else{
+          Msg::setMSG('Gagal reset password', 'error');
+        }
+      }
+
+      $this->view('login/reset', $data);
+    }else{
+      Redirect::to(BASEURL);
+    }
+  }
+
   public function logout(){
     Session_destroy();
     Redirect::to(BASEURL.'/admin');
