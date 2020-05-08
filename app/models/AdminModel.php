@@ -45,4 +45,43 @@ class AdminModel{
     $this->db->bind('id', $id);
     return $this->db->result();
   }
+
+  public function validEmailUser($data){
+    $query = "SELECT * FROM login WHERE user=:user AND email=:email";
+    $this->db->query($query);
+    $this->db->bind('user', $data['user']);
+    $this->db->bind('email', $data['email']);
+    $datas = $this->db->result();
+
+    return ($this->db->rowCount() > 0) ? $datas : false;
+  }
+
+  public function setCodeReset($code, $id){
+    $query = "UPDATE login SET code=:code WHERE id=:id";
+    $this->db->query($query);
+    $this->db->bind('code', $code);
+    $this->db->bind('id', $id);
+    $this->db->execute();
+  }
+
+  public function validCodeReset($code){
+    $query = "SELECT * FROM login WHERE code=:code";
+    $this->db->query($query);
+    $this->db->bind('code', $code);
+    $this->db->execute();
+    return ($this->db->rowCount() > 0) ? true : false;
+  }
+
+  public function resetPassword($data){
+    if($this->validCodeReset($data['code'])){
+      $query = "UPDATE login SET pass=:pass, code='' WHERE code=:code";
+      $this->db->query($query);
+      $this->db->bind('pass', $data['new_pass']);
+      $this->db->bind('code', $data['code']);
+      $this->db->execute();
+      return ($this->db->rowCount() > 0) ? true : false;
+    }else{
+      return false;
+    }
+  }
 }
