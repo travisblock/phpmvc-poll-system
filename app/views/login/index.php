@@ -15,10 +15,10 @@
               <?= Msg::show(); ?>
             </div>
             <h1>Login Account</h1>
-            <span>Use username or password</span>
+            <span>Use username and password</span>
             <input type="text" name="username" placeholder="username">
             <input type="password" name="password" placeholder="password">
-            <a class="forgot" href="#">Forgot your password</a>
+            <a class="forgot" href="<?= BASEURL; ?>/admin/forgotPass">Forgot your password</a>
             <button class="tombol" type="submit">Login</button>
           </form>
         </div>
