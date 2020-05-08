@@ -18,7 +18,9 @@
             <span>Use username and password</span>
             <input type="text" name="username" placeholder="username">
             <input type="password" name="password" placeholder="password">
-            <a class="forgot" href="<?= BASEURL; ?>/admin/forgotPass">Forgot your password</a>
+            <?php if($data['role'] == 'admin'){ ?>
+              <a class="forgot" href="<?= BASEURL; ?>/admin/forgotPass">Forgot your password</a>
+            <?php } ?>
             <button class="tombol" type="submit">Login</button>
           </form>
         </div>
