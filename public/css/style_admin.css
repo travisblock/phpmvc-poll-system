@@ -461,7 +461,8 @@ svg{
 
 }
 
-.wrapper #msg .success{
+.wrapper #msg .success,
+.err-place #msg .success{
   background-color: #4cd137;
   padding: 13px 34px;
   color: #fff;
@@ -636,6 +637,16 @@ button.ghost{
   height: 100%;
   text-align: center;
   right: 0;
+}
+
+.container-login-s{
+  width: 340px;
+  background: #fff;
+  border-radius: 5px;
+  position: relative;
+  overflow: hidden;
+  max-width: 100%;
+  height: 480px;
 }
 
 @media screen and (max-width: 824px) {
