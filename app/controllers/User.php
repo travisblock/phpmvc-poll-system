@@ -1,10 +1,18 @@
 <?php
 
+/**
+* @author Yusuf Al Majid <ajidalmajid6@gmail.com>
+* @license MIT
+* @version 0.0.1
+*/
+
+
 class User extends Controller{
 
   public function index(){
     if(empty(Session::get('username'))){
       $data['action_login'] = BASEURL . '/user/login';
+      $data['role'] = 'user';
       $this->view('login/index', $data);
     }else{
       Redirect::to(BASEURL.'/user/home');
@@ -51,34 +59,5 @@ class User extends Controller{
     Session_destroy();
     Redirect::to(BASEURL);
   }
-
-  // public function register(){
-  //   session_start();
-  //   if(empty(Session::get('username'))){
-  //     $data['email'] = htmlentities(Input::get('email'));
-  //     $data['user']  = htmlentities(Input::get('user'));
-  //     $data['pass']  = password_hash(Input::get('pass'), PASSWORD_DEFAULT);
-  //     if(!empty($data['user']) && !empty($data['email'])){
-  //       if($this->model('registerUser')->cekRegister($data)){
-  //         if($this->model('registerUser')->register($data)){
-  //
-  //           Session::set('username', $data['user']);
-  //           header('Location:'. BASEURL .'/user/home');
-  //           exit();
-  //         }else{
-  //           echo "<script>alert('Ada kesalahan saat input data'); window.location.href='".BASEURL."/user'</script>";
-  //         }
-  //       }else{
-  //         echo "<script>alert('Username / email sudah digunakan'); window.location.href='".BASEURL."/user'</script>";
-  //       }
-  //     }else{
-  //       header('Location:'. BASEURL . '/user');
-  //       exit();
-  //     }
-  //   }else{
-  //     header('Location:'. BASEURL .'/user/home');
-  //     exit();
-  //   }
-  // }
 
 }
