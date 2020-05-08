@@ -1,10 +1,17 @@
 <?php
 
+/**
+* @author Yusuf Al Majid <ajidalmajid6@gmail.com>
+* @license MIT
+* @version 0.0.1
+*/
+
 class Admin extends Controller{
 
   public function index(){
     if(empty(Session::get('AdminName'))){
       $data['action_login'] = BASEURL . '/admin/loginad';
+      $data['role'] = 'admin';
       $this->view('login/index', $data);
     }else{
       Redirect::to(BASEURL.'/admin/dashboard');
@@ -35,7 +42,7 @@ class Admin extends Controller{
 
   public function dashboard(){
       if(Session::exists('AdminName')){
-        $data['judul'] = 'Dashboard';
+        $data['judul'] = 'Admin Dashboard';
         $data['email'] = Session::get('email');
         $this->view('admin/header', $data);
         $this->view('admin/dashboard', $data);
