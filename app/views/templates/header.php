@@ -25,7 +25,7 @@
             <?php
             if (Session::exists('username')){
               ?>
-                <li class="userLogin"><?= $data['username']; ?></li>
+                <li class="userLogin"><a href="<?= BASEURL; ?>/user/home"><?= Session::get('username'); ?></a></li>
                 <li><a href="<?= BASEURL; ?>/user/logout">Logout</a></li>
               <?php
             }else{

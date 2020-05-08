@@ -14,7 +14,7 @@
     <div class="pool-bar">
       <span class="span1">
         <span class="span2" style="width:<?= $key['value']; ?>%">
-          <span class="span3"><?= $key['value']; ?>%</span>
+          <span class="span3"><?= $key['value']; ?>&nbsp;Suara</span>
         </span>
       </span>
     </div>
