@@ -15,10 +15,3 @@
 2. HTML, CSS, JS (native)
 3. MySQL
 4. Library : PHPSpreadsheet & PHPMailer
-
-
-## Author :
-
-- Fb : [AJID STARK](https://fb.me/ajidstark)
-- Twitter : [@ajidstark](https://twitter.com/ajidstark)
-- LinkedIn : [Yusuf Al Majid](https://www.linkedin.com/in/yusuf-al-majid/)
